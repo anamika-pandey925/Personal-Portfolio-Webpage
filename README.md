@@ -35,7 +35,8 @@ Your interests, like UI/UX design, front-end development, or coding challenges.
 
 ## **4. Projects Section**
 This section displays two of your featured projects, providing insights into your work:
- **a) Women’s Safety Website**
+
+**a) Women’s Safety Website**
 A resourceful platform offering crisis intervention, legal advocacy, and counseling for women in need.
 Includes information about helplines, legal rights, and safety tips to assist users.
 A user-friendly interface designed for easy navigation and accessibility.
