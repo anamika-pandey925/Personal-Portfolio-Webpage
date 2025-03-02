@@ -1,4 +1,4 @@
-##Personal-Portfolio-Webpage
+# Personal-Portfolio-Webpage
 *COMPANY*: CODTECH IT SOLUTIONS 
 *NAME*: ANAMIKA 
 *INTERN ID*: CT08UOE 
@@ -62,11 +62,6 @@ A thank you message or a small note encouraging visitors to explore your project
 ## **Conclusion**
 Your portfolio website is a crucial tool for showcasing your skills and projects. By fixing project links, enhancing the design, improving mobile responsiveness, and optimizing for SEO, you can significantly improve its impact. A well-structured, visually appealing, and user-friendly portfolio will make a strong impression on visitors, helping you stand out as a Web Developer, Designer, and Coder.
 
-## Ou
-
-
-
 #OUTPUT
 ![Image](https://github.com/user-attachments/assets/16044bf3-b0ce-4cc1-83bc-a2d37ae55e66)
 
-#
