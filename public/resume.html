@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anamika Pandey - Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f1f5f9; color: #1e293b; }
+        
+        .page {
+            background: white;
+            max-width: 900px;
+            margin: 2rem auto;
+            min-height: 297mm; /* A4 Ratio */
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-top: 6px solid #6366f1;
+        }
+        
+        @media print {
+            body { background: white; margin: 0; padding: 0; }
+            .page { margin: 0; padding: 2rem; box-shadow: none; max-width: 100%; border-top: 6px solid #6366f1 !important; }
+            .print-hidden { display: none !important; }
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.25em;
+            color: #6366f1;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    
+    <button onclick="window.print()" class="print-hidden fixed bottom-8 right-8 bg-[#6366f1] hover:bg-[#4f46e5] text-white px-8 py-4 rounded-full font-black shadow-2xl transition-all hover:scale-105 flex items-center gap-3 z-50 uppercase tracking-widest text-[10px]">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        Download PDF
+    </button>
+
+    <div class="page">
+        <!-- Header -->
+        <header class="mb-10">
+            <h1 class="text-5xl font-extrabold text-[#0f172a] tracking-tighter mb-2">Anamika Pandey</h1>
+            <p class="text-lg font-bold text-[#6366f1] uppercase tracking-[0.2em] italic mb-6">Frontend Engineer // React.js Specialist</p>
+            
+            <div class="flex flex-wrap items-center gap-x-8 gap-y-3 text-[11px] font-bold text-slate-500 uppercase tracking-widest border-t border-b border-slate-100 py-4">
+                <div class="flex items-center gap-1.5 line-clamp-1">
+                    <span class="text-[#6366f1] opacity-70">Loc:</span> <span class="text-slate-800">Delhi, India</span>
+                </div>
+                <div class="flex items-center gap-1.5 line-clamp-1">
+                    <span class="text-[#6366f1] opacity-70">Email:</span> <a href="mailto:anamika758287@gmail.com" class="text-slate-800 hover:text-[#6366f1]">anamika758287@gmail.com</a>
+                </div>
+                <div class="flex items-center gap-1.5 line-clamp-1">
+                    <span class="text-[#6366f1] opacity-70">Phone:</span> <a href="tel:8799735545" class="text-slate-800 hover:text-[#6366f1]">+91 8799735545</a>
+                </div>
+                <div class="flex items-center gap-1.5 line-clamp-1">
+                    <span class="text-[#6366f1] opacity-70">Linked:</span> <a href="https://linkedin.com/in/anamika-pandey-96598b228" class="text-slate-800 hover:text-[#6366f1]">linkedin.com/in/anamika-p</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-[1.8fr_1fr] gap-12">
+            <!-- Left Partition: Main Content -->
+            <div class="space-y-12">
+                
+                <!-- Summary -->
+                <section>
+                    <div class="section-title">Professional Summary</div>
+                    <p class="text-[13px] leading-relaxed text-slate-600 font-medium">
+                        MCA candidate specializing in the design and development of responsive, high-performance web applications using the React.js ecosystem. Guided by the structured precision and creative discipline of classical dance, I focus on crafting clean frontend architectures, seamless real-time Socket.io integrations, and user-centric user experiences.
+                    </p>
+                </section>
+
+                <!-- Experience -->
+                <section>
+                    <div class="section-title">Work Experience</div>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between items-baseline mb-1">
+                                <h4 class="font-extrabold text-[#0f172a] text-base uppercase tracking-tight">Web Development Intern</h4>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Sep 2025 – Oct 2025</span>
+                            </div>
+                            <div class="text-[11px] font-bold text-[#6366f1] uppercase tracking-widest mb-3">Labmentix Pvt. Ltd // Remote</div>
+                            <p class="text-[12px] text-slate-600 leading-relaxed font-medium">Developed responsive features for enterprise-level web ecosystems. Optimized performance bottlenecks and refactored legacy components for better maintainability.</p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-baseline mb-1">
+                                <h4 class="font-extrabold text-[#0f172a] text-base uppercase tracking-tight">Engineering Intern</h4>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Aug 2025 – Sep 2025</span>
+                            </div>
+                            <div class="text-[11px] font-bold text-[#6366f1] uppercase tracking-widest mb-3">Shree Laxmi Industries // UP</div>
+                            <p class="text-[12px] text-slate-600 leading-relaxed font-medium">Streamlined industrial data flows by architecting custom internal tools. Implemented modular dashboard components for real-time monitoring.</p>
+                        </div>
+
+                        <div>
+                            <div class="flex justify-between items-baseline mb-1">
+                                <h4 class="font-extrabold text-[#0f172a] text-base uppercase tracking-tight">Frontend Developer Intern</h4>
+                                <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Feb 2025 – Mar 2025</span>
+                            </div>
+                            <div class="text-[11px] font-bold text-[#6366f1] uppercase tracking-widest mb-3">CODTECH Solutions // Remote</div>
+                            <p class="text-[12px] text-slate-600 leading-relaxed font-medium">Integrated complex REST endpoints into high-fidelity UI. Enhanced site interactivity with focus on user-centric design principles.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects -->
+                <section>
+                    <div class="section-title">Project Archive</div>
+                    <div class="space-y-4">
+                        <div>
+                            <h5 class="font-bold text-[#0f172a] text-[13px]">Women Safety & Empowerment Platform</h5>
+                            <p class="text-[12px] text-slate-500 leading-relaxed">Engineered a mission-critical safety platform with real-time geo-fencing and SOS capabilities.</p>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-[#0f172a] text-[13px]">Real-Time Neural Chat Application</h5>
+                            <p class="text-[12px] text-slate-500 leading-relaxed">Built a high-concurrency instant messenger utilizing Socket.io and persistent state management.</p>
+                        </div>
+                        <div>
+                            <h5 class="font-bold text-[#0f172a] text-[13px]">Dance Academy Web Platform</h5>
+                            <p class="text-[12px] text-slate-500 leading-relaxed">A modern, responsive frontend presentation for a dance academy with smooth transitions and layout animations.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Partition: Sidebar -->
+            <div class="space-y-12">
+                
+                <!-- Core Skills -->
+                <section>
+                    <div class="section-title">Core Stack</div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">React</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Next.js</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">TypeScript</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Tailwind CSS</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Node.js</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Django</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">PostgreSQL</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Socket.io</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Framer Motion</span>
+                        <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[9px] font-black uppercase tracking-widest border border-slate-100 rounded-md">Git</span>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section>
+                    <div class="section-title">Academic</div>
+                    <div class="space-y-6">
+                        <div>
+                            <p class="text-[10px] font-black text-[#6366f1] uppercase tracking-widest mb-1">2024 – Present</p>
+                            <h5 class="font-extrabold text-[#0f172a] text-[13px] leading-tight">Masters of Computer Applications</h5>
+                            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-1">Galgotias University</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-black text-[#6366f1] uppercase tracking-widest mb-1">2020 – 2023</p>
+                            <h5 class="font-extrabold text-[#0f172a] text-[13px] leading-tight">Bachelors of Computer Apps</h5>
+                            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-widest mt-1">Bharati Vidyapeeth</p>
+                            <span class="inline-block mt-2 text-[10px] font-black bg-slate-50 px-2 py-0.5 rounded text-slate-400 border border-slate-100 tracking-widest">82.8%</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Certifications -->
+                <section>
+                    <div class="section-title">Certificates</div>
+                    <div class="space-y-4">
+                        <div class="text-[11px]">
+                            <p class="font-bold text-[#0f172a]">SQL Micro Course</p>
+                            <p class="text-slate-500 uppercase tracking-widest text-[9px] font-bold">Cuvette Tech // Oct 2025</p>
+                        </div>
+                        <div class="text-[11px]">
+                            <p class="font-bold text-[#0f172a]">Frontend Hackathon</p>
+                            <p class="text-slate-500 uppercase tracking-widest text-[9px] font-bold">CODTECH // Jan 2025</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Personality -->
+                <section class="pt-8 border-t border-slate-100">
+                    <p class="text-[11px] text-slate-500 leading-relaxed italic font-medium">
+                        "I translate the meticulous discipline of **Classical Dance** into architectural code precision."
+                    </p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
