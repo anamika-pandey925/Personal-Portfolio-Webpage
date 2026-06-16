@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
-import { generateResumePDF } from '../utils/resumeGenerator';
 
 interface HeroProps {
   onProjectsClick: () => void;
@@ -145,13 +144,15 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
             </button>
 
             {/* Download CV */}
-            <button
-              onClick={() => generateResumePDF()}
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] font-bold text-xs uppercase tracking-wider transition-all active:scale-95 focus:outline-none"
+            <a
+              href="/resume"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] font-bold text-xs uppercase tracking-wider transition-all active:scale-95"
             >
               <Download size={13} />
               Download CV
-            </button>
+            </a>
           </motion.div>
 
           {/* Social icons */}

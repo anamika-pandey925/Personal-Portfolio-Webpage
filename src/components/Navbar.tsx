@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { generateResumePDF } from '../utils/resumeGenerator';
 
 interface NavbarProps {
   activeSection: string;
@@ -85,12 +84,14 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, theme, toggl
             </button>
 
             {/* Resume button */}
-            <button
-              onClick={() => generateResumePDF()}
+            <a
+              href="/resume"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 bg-[#A855F7] text-white hover:bg-[#A855F7]/95 transition-all select-none focus:outline-none"
             >
               Resume
-            </button>
+            </a>
           </div>
         </div>
 
@@ -145,15 +146,15 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, theme, toggl
 
             {/* Mobile CTAs */}
             <div className="flex flex-col gap-3 w-full px-8 mt-4 select-none">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  generateResumePDF();
-                }}
+              <a
+                href="/resume"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
                 className="w-full text-center py-3 rounded-full border border-[#A855F7]/20 bg-[#A855F7]/10 text-[#A855F7] font-bold text-xs tracking-wider uppercase focus:outline-none hover:bg-[#A855F7]/20 transition-all"
               >
                 Resume
-              </button>
+              </a>
               <Link
                 to="/contact"
                 onClick={() => setMobileMenuOpen(false)}
