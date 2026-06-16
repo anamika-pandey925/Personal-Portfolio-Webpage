@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import Lenis from 'lenis';
 import CustomCursor from './components/CustomCursor';
 import GridBackground from './components/GridBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import Skills from './components/Skills';
+import Services from './components/Services';
 import Projects from './components/Projects';
 import Certificates from './components/Certificates';
 import Experience from './components/Experience';
@@ -12,67 +14,147 @@ import GithubStats from './components/GithubStats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
-const App: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<string>('home');
+// Helper component to scroll to top on route change
+const ScrollToTop: React.FC<{ lenis: Lenis | null }> = ({ lenis }) => {
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight / 3;
-      const sections = ['home', 'about', 'skills', 'projects', 'certificates', 'experience', 'contact'];
-      
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
+    if (lenis) {
+      lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, lenis]);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    // Call once to set initial active tab
-    handleScroll();
+  return null;
+};
+
+const AppContent: React.FC = () => {
+  const [lenisInstance, setLenisInstance] = useState<Lenis | null>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
+  });
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Determine active section based on the URL pathname
+  const getActiveSection = (path: string) => {
+    if (path === '/') return 'home';
+    return path.replace('/', '');
+  };
+  const activeSection = getActiveSection(location.pathname);
+
+  useEffect(() => {
+    // Sync theme with document class
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
+
+  useEffect(() => {
+    // Initialize Lenis smooth scroll
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.5,
+      infinite: false,
+    });
+
+    setLenisInstance(lenis);
+
+    let rafId: number;
+    const raf = (time: number) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
     
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   const handleNavClick = (sectionId: string) => {
-    const el = document.getElementById(sectionId);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
-    }
+    const path = sectionId === 'home' ? '/' : `/${sectionId}`;
+    navigate(path);
   };
 
   return (
-    <div className="bg-[#050816] text-[#E2E8F0] min-h-screen selection:bg-[#7C3AED]/30 selection:text-white overflow-x-hidden relative font-sans">
+    <div className="bg-[var(--bg)] text-[var(--fg)] min-h-screen selection:bg-[#A855F7]/30 selection:text-[var(--fg)] overflow-x-hidden relative font-sans transition-colors duration-300">
       {/* Premium Visual Layer */}
       <CustomCursor />
       <GridBackground />
-      <div className="noise-overlay" aria-hidden="true" />
+      <div className="noise-overlay opacity-[0.02] dark:opacity-[0.04]" aria-hidden="true" />
+      <ScrollToTop lenis={lenisInstance} />
 
-      {/* Floating Pill Navbar */}
-      <Navbar activeSection={activeSection} onNavClick={handleNavClick} />
+      {/* Sticky Navbar */}
+      <Navbar 
+        activeSection={activeSection} 
+        onNavClick={handleNavClick} 
+        theme={theme} 
+        toggleTheme={toggleTheme} 
+      />
 
-      {/* Main Single Page Sections */}
-      <main className="relative z-10 w-full">
-        <Hero onProjectsClick={() => handleNavClick('projects')} />
-        <About />
-        <Skills />
-        <Projects />
-        <Certificates />
-        <Experience />
-        <GithubStats />
-        <Contact />
+      {/* Multi-Page Route Selector */}
+      <main className="relative z-10 w-full min-h-[75vh]">
+        <Routes>
+          <Route path="/" element={
+            <>
+              <Hero 
+                onProjectsClick={() => navigate('/projects')} 
+                onContactClick={() => navigate('/contact')} 
+              />
+              <GithubStats />
+            </>
+          } />
+          
+          <Route path="/about" element={
+            <>
+              <About />
+              <Experience />
+              <Certificates />
+            </>
+          } />
+
+          <Route path="/services" element={<Services />} />
+          
+          <Route path="/projects" element={<Projects />} />
+          
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
       </main>
 
       {/* Footer */}
-      <Footer onScrollTop={() => handleNavClick('home')} />
+      <Footer onScrollTop={() => {
+        if (location.pathname !== '/') {
+          navigate('/');
+        } else {
+          if (lenisInstance) {
+            lenisInstance.scrollTo(0);
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      }} />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 

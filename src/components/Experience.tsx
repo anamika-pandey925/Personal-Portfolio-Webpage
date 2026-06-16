@@ -17,13 +17,13 @@ const ExperienceNode: React.FC<{ item: ExperienceItem; index: number }> = ({ ite
       className="relative pl-12 md:pl-20 pb-16 last:pb-0 group"
     >
       {/* Connector vertical line */}
-      <div className="absolute left-[18px] md:left-[30px] top-4 bottom-0 w-[2.5px] bg-gradient-to-b from-[#7C3AED]/40 via-white/5 to-transparent group-last:bg-transparent" />
+      <div className="absolute left-[18px] md:left-[30px] top-4 bottom-0 w-[2.5px] bg-gradient-to-b from-[#A855F7]/40 via-[var(--border)] to-transparent group-last:bg-transparent" />
       
       {/* Timeline Circle Node */}
       <div className={`absolute left-0 md:left-2 top-0.5 w-10 h-10 md:w-12 md:h-12 rounded-2xl border flex items-center justify-center transition-all duration-700 z-10 ${
         item.current
-          ? 'bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] border-[#7C3AED] shadow-[0_0_20px_rgba(124,58,237,0.5)] text-white'
-          : 'bg-[#0c0e25] border-white/10 text-[#94a3b8]/40 group-hover:border-[#7C3AED]/40 group-hover:text-[#7C3AED]'
+          ? 'bg-gradient-to-br from-[#A855F7] to-indigo-500 border-[#A855F7] shadow-[0_0_20px_rgba(168,85,247,0.4)] text-white'
+          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--fg)]/40 group-hover:border-[#A855F7]/40 group-hover:text-[#A855F7]'
       }`}>
         {isAcademic ? (
           <GraduationCap size={18} />
@@ -34,10 +34,10 @@ const ExperienceNode: React.FC<{ item: ExperienceItem; index: number }> = ({ ite
         )}
       </div>
 
-      <GlassCard className={`p-8 border-white/5 transition-all duration-700 rounded-3xl ${
+      <GlassCard className={`p-8 border-[var(--border)] transition-all duration-700 rounded-3xl ${
         item.current 
-          ? 'bg-[#7C3AED]/5 border-[#7C3AED]/20 shadow-xl shadow-[#7C3AED]/5' 
-          : 'bg-[#0c0e25]/20 hover:border-[#7C3AED]/15'
+          ? 'bg-[#A855F7]/5 border-[#A855F7]/25 shadow-xl shadow-[#A855F7]/5' 
+          : 'bg-[var(--surface)]/20 hover:border-[#A855F7]/15'
       }`}>
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
           <div>
@@ -79,16 +79,16 @@ const Experience: React.FC = () => {
   const experiences = portfolioData.experience;
 
   return (
-    <section id="experience" className="py-24 relative overflow-hidden">
+    <section id="experience" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
       <div className="container mx-auto px-6 max-w-4xl relative z-10">
         
         {/* Section Title */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[10px] uppercase font-black tracking-[0.5em] text-[#7C3AED] mb-3">05 // TIMELINE</span>
-          <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-[0.9]">
-            Narrative <span className="bg-gradient-to-r from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">Timeline</span>
+        <div className="flex flex-col items-center text-center mb-16 select-none">
+          <span className="text-[10px] uppercase font-black tracking-[0.5em] text-[#A855F7] mb-3">05 // TIMELINE</span>
+          <h2 className="text-4xl md:text-5xl font-black text-[var(--fg)] uppercase tracking-tight leading-none">
+            Experience Timeline
           </h2>
-          <div className="h-1 w-12 bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] rounded-full mt-6" />
+          <div className="h-[2px] w-12 bg-[#A855F7] mt-4" />
         </div>
 
         <div className="relative">

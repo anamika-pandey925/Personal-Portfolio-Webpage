@@ -1,5 +1,3 @@
-import { Code2, Cpu, Database, Terminal } from 'lucide-react';
-
 export interface Project {
   title: string;
   description: string;
@@ -7,29 +5,15 @@ export interface Project {
   image: string;
   github: string;
   live: string;
+  category: string;
   badge?: string;
-  rating?: string;
-  review?: string;
+  rating?: number;
+  clientReview?: string;
 }
 
 export interface Skill {
   name: string;
   level: number;
-}
-
-export interface SkillCategory {
-  title: string;
-  icon: any;
-  color: string;
-  skills: Skill[];
-}
-
-export interface Certificate {
-  title: string;
-  organization: string;
-  date: string;
-  image: string;
-  description: string;
 }
 
 export interface ExperienceItem {
@@ -42,6 +26,22 @@ export interface ExperienceItem {
   current?: boolean;
 }
 
+export interface Certificate {
+  title: string;
+  organization: string;
+  date: string;
+  image: string;
+  description: string;
+}
+
+export interface EducationItem {
+  degree: string;
+  institution: string;
+  period: string;
+  location: string;
+  grade?: string;
+}
+
 export const portfolioData = {
   personalInfo: {
     name: 'Anamika Pandey',
@@ -50,102 +50,81 @@ export const portfolioData = {
     linkedin: 'https://www.linkedin.com/in/anamika-pandey-96598b228/',
     github: 'https://github.com/anamika-pandey925',
     location: 'Delhi, India',
-    bio: 'MCA candidate specializing in building responsive, high-performance web applications using the React.js ecosystem. Guided by the structured precision and creative discipline of classical dance, I treat code like choreography—fluid, precise, and purposeful.',
+    bio: 'MCA Graduate specializing in building responsive, high-performance web applications and sleek UI/UX designs. Guided by the structured precision and creative discipline of classical dance, I treat code like choreography—fluid, precise, and purposeful.',
   },
   
   projects: [
     {
-      title: 'Suraksha - Women\'s Safety',
-      description: 'A responsive safety portal featuring instant SOS notifications, real-time location sharing tracker, emergency contacts management, and community support boards. (Note: This project is under active development)',
+      title: "Women's Safety Platform (Suraksha)",
+      description: 'A responsive safety portal featuring instant SOS alerts, real-time location sharing, emergency contact management, and community support boards.',
       tech: ['React.js', 'Node.js', 'Express.js', 'WebSockets', 'Tailwind CSS'],
       image: '/women-safety.png',
       github: 'https://github.com/anamika-pandey925/women-safety-platform',
       live: 'https://anamika-pandey925.github.io/Women-Empowerment-Safety/',
-      badge: 'Active Development'
-    },
-    {
-      title: 'Step Up Dance Academy',
-      description: 'A premium web portal built for Step Up Dance Academy. Features branch directories, wedding choreography highlights, booking requests, and customized trainer schedules.',
-      tech: ['React.js', 'Vite', 'Tailwind CSS', 'Framer Motion'],
-      image: '/step-up-dance.jpg',
-      github: 'https://github.com/anamika-pandey925/step-up-dance-academy',
-      live: 'https://step-up-dance-academy-coral.vercel.app/',
-      badge: 'First Client Project',
-      rating: '5/5',
-      review: 'Exceptional website design! It perfectly captures the rhythm and movement of our academy. Very easy to manage and completely responsive.'
+      category: 'Web App',
+      badge: 'Active'
     },
     {
       title: 'Interactive Quiz Application',
-      description: 'A dynamic exam taking app with responsive timer controls, progress tracking indicators, and categorized score sheets.',
+      description: 'A dynamic online quiz platform featuring real-time timer controls, progress tracking indicators, and detailed performance score sheets.',
       tech: ['JavaScript', 'HTML5', 'CSS3'],
       image: '/interactive-quiz.png',
       github: 'https://github.com/anamika-pandey925/INTERACTIVE-QUIZ-APPLICATION',
-      live: 'https://anamika-pandey925.github.io/INTERACTIVE-QUIZ-APPLICATION/'
+      live: 'https://anamika-pandey925.github.io/INTERACTIVE-QUIZ-APPLICATION/',
+      category: 'Vanilla JS'
     },
     {
-      title: 'E-Learning Platform UI',
+      title: 'E-Learning Platform',
       description: 'A premium, modern online learning portal UI featuring interactive course catalogs, responsive grids, and sidebar navigations.',
       tech: ['HTML5', 'CSS3', 'JavaScript'],
       image: '/elearning-platform.png',
       github: 'https://github.com/anamika-pandey925/E-LEARNING-PLATFORM-UI',
-      live: 'https://anamika-pandey-portfolio.netlify.app'
+      live: 'https://anamika-pandey-portfolio.netlify.app',
+      category: 'UI/UX Design'
     },
     {
-      title: 'Premium Developer Portfolio',
-      description: 'An ultra-premium cyberpunk developer portfolio built with React, TypeScript, and Framer Motion, featuring smooth animations and scroll reveals.',
-      tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+      title: 'Step Up Dance Academy',
+      description: 'A modern, responsive client website showcasing dance classes, events, student reviews, and branches across multiple dance styles.',
+      tech: ['React.js', 'Firebase', 'Tailwind CSS', 'HTML5', 'JavaScript'],
+      image: '/step-up-dance.jpg',
+      github: 'https://github.com/anamika-pandey925/step-up-dance-academy',
+      live: 'https://step-up-dance-academy-coral.vercel.app/',
+      category: 'Web App',
+      badge: 'First Client Project',
+      rating: 5,
+      clientReview: 'Anamika created a stunning, highly responsive site for our dance academy. It is fast, beautifully structured, and has greatly boosted our registrations!'
+    },
+    {
+      title: 'Portfolio Website',
+      description: 'An elegant, responsive portfolio website featuring a dark/light theme toggle, Framer Motion transitions, and clean layouts.',
+      tech: ['React.js', 'Vite', 'Tailwind CSS', 'Framer Motion'],
       image: '/ai-resume.png',
       github: 'https://github.com/anamika-pandey925/Personal-Portfolio-Webpage',
-      live: 'https://anamika-pandey-portfolio.netlify.app'
+      live: 'https://anamika-pandey-portfolio.netlify.app',
+      category: 'Frontend Dev',
+      badge: 'Featured'
+    },
+    {
+      title: 'Business Landing Page',
+      description: 'A highly optimized premium landing page for a modern SaaS business featuring scroll animations, responsive structures, and newsletter signups.',
+      tech: ['HTML5', 'CSS3', 'Tailwind CSS', 'JavaScript'],
+      image: '/landing-page.png',
+      github: 'https://github.com/anamika-pandey925/business-landing-page',
+      live: 'https://anamika-landing-page.netlify.app',
+      category: 'Web Design'
     }
   ] as Project[],
 
   skills: [
-    {
-      title: 'Frontend Development',
-      icon: Code2,
-      color: 'text-[#7C3AED]',
-      skills: [
-        { name: 'React.js', level: 95 },
-        { name: 'Tailwind CSS', level: 96 },
-        { name: 'HTML5', level: 98 },
-        { name: 'CSS3', level: 94 }
-      ]
-    },
-    {
-      title: 'Programming Languages',
-      icon: Terminal,
-      color: 'text-[#06B6D4]',
-      skills: [
-        { name: 'JavaScript', level: 92 },
-        { name: 'TypeScript', level: 85 },
-        { name: 'Java', level: 78 },
-        { name: 'Python', level: 75 }
-      ]
-    },
-    {
-      title: 'Tools & Platforms',
-      icon: Cpu,
-      color: 'text-[#3B82F6]',
-      skills: [
-        { name: 'Git & GitHub', level: 90 },
-        { name: 'VS Code', level: 95 },
-        { name: 'Figma', level: 82 },
-        { name: 'Postman', level: 88 }
-      ]
-    },
-    {
-      title: 'Other Technologies',
-      icon: Database,
-      color: 'text-emerald-400',
-      skills: [
-        { name: 'SQL & PostgreSQL', level: 85 },
-        { name: 'Node.js', level: 82 },
-        { name: 'Express.js', level: 80 },
-        { name: 'Django', level: 70 }
-      ]
-    }
-  ] as SkillCategory[],
+    { name: 'HTML/CSS', level: 95 },
+    { name: 'JavaScript', level: 90 },
+    { name: 'React.js', level: 92 },
+    { name: 'Tailwind CSS', level: 94 },
+    { name: 'UI/UX Design', level: 88 },
+    { name: 'Figma', level: 85 },
+    { name: 'Git & GitHub', level: 88 },
+    { name: 'Responsive Design', level: 96 }
+  ] as Skill[],
 
   certificates: [
     {
@@ -187,45 +166,55 @@ export const portfolioData = {
 
   experience: [
     {
-      role: 'Web Development Intern',
+      role: 'Web Development Intern (Frontend)',
       company: 'Labmentix Pvt. Ltd',
       period: 'Sep 2025 - Oct 2025',
       location: 'Remote',
-      description: 'Developed responsive, dynamic React components for core web portals. Collaborated on REST API integration and state logic enhancements.',
+      description: 'Developed responsive, dynamic React components for core web portals. Collaborated on REST API integration and state logic enhancements using Tailwind CSS.',
       type: 'Internship',
       current: true
     },
     {
-      role: 'Project Trainee',
-      company: 'Shree Laxmi Industries',
+      role: 'Client Website Developer',
+      company: 'Step Up Dance Academy',
       period: 'Aug 2025 - Sep 2025',
       location: 'UP, India',
-      description: 'Built internal dashboard widgets and tabular reports to streamline log flows, using HTML5, CSS3, and JavaScript.',
-      type: 'Internship'
+      description: 'Built and launched a premium interactive web portal. Features branch directories, wedding choreography highlights, booking requests, and customized trainer schedules.',
+      type: 'Freelance'
     },
     {
-      role: 'Frontend Development Intern',
+      role: 'Frontend Development Internship',
       company: 'CODTECH IT SOLUTIONS',
       period: 'Feb 2025 - Mar 2025',
       location: 'Remote',
-      description: 'Crafted custom, reusable UI forms and state-driven modules in React.js. Synced styled Tailwind CSS views with backend services.',
+      description: 'Completed a professional internship focusing on React.js implementation, custom forms, and reusable component structure with responsive CSS layouts.',
       type: 'Internship'
     },
     {
-      role: 'Freelance Web Developer',
+      role: 'Freelance Web Development Projects',
       company: 'Self-Employed',
       period: 'Sep 2023 - Present',
       location: 'Delhi, India',
       description: 'Designing and launching lightweight responsive sites for various clients, implementing clean styling and smooth transitions.',
       type: 'Freelance'
+    }
+  ] as ExperienceItem[],
+
+  education: [
+    {
+      degree: 'Masters of Computer Applications (MCA)',
+      institution: 'Galgotias University',
+      period: '2024 – Present',
+      location: 'Greater Noida, India'
     },
     {
-      role: 'Master of Computer Applications (MCA)',
-      company: 'Galgotias University',
-      period: '2024 - Present',
-      location: 'Greater Noida, India',
-      description: 'Focusing on advanced algorithms, cloud computing, database structures, and web technologies.',
-      type: 'Academic'
+      degree: 'Bachelors of Computer Applications (BCA)',
+      institution: 'Bharati Vidyapeeth',
+      period: '2020 – 2023',
+      location: 'New Delhi, India',
+      grade: '82.8%'
     }
-  ] as ExperienceItem[]
+  ] as EducationItem[]
 };
+
+

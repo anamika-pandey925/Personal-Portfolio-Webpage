@@ -1,92 +1,112 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData, Project } from '../data/portfolioData';
 
-const ProjectItem: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 40 }}
+      layout
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.65, delay: index * 0.1, ease: [0.25, 1, 0.5, 1] }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
       className="flex"
     >
-      <GlassCard className="group flex flex-col h-full overflow-hidden rounded-3xl border-white/5 bg-[#0c0e25]/30 hover:border-[#7C3AED]/20 transition-all duration-500 hover:shadow-2xl hover:shadow-[#7C3AED]/10 relative">
+      <GlassCard className="group flex flex-col h-full min-h-[460px] overflow-hidden rounded-3xl border-[var(--border)] bg-[var(--surface)]/30 hover:border-[#A855F7]/30 transition-all duration-500 hover:shadow-lg hover:shadow-[#A855F7]/5 relative select-none">
         
-        {/* Project Thumbnail Image Container */}
-        <div className="relative h-52 overflow-hidden bg-black/40 shrink-0 select-none">
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050816] via-transparent to-transparent z-10" />
-          <div className="absolute inset-0 bg-gradient-to-br from-[#7C3AED]/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+        {/* Thumbnail Image Container */}
+        <div className="relative h-56 overflow-hidden bg-black/20 shrink-0">
           <img 
             src={project.image} 
             alt={project.title} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 relative z-0" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-0" 
+            onError={(e) => {
+              e.currentTarget.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop';
+            }}
           />
           {project.badge && (
-            <span className="absolute top-4 left-4 z-20 px-3 py-1 text-[8.5px] font-black uppercase tracking-widest text-[#06B6D4] bg-[#06B6D4]/10 border border-[#06B6D4]/30 rounded-full backdrop-blur-md shadow-lg shadow-[#06B6D4]/10 animate-pulse">
+            <span className="absolute top-4 left-4 z-20 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-[#A855F7] bg-[#A855F7]/10 border border-[#A855F7]/35 rounded-full backdrop-blur-md">
               {project.badge}
             </span>
           )}
+
+          {/* Hover Overlay with Action Buttons */}
+          <div className="absolute inset-0 bg-[var(--bg)]/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 flex flex-col items-center justify-center gap-4">
+            <h4 className="text-white text-sm font-black uppercase tracking-wider mb-2 translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
+              {project.title}
+            </h4>
+            <div className="flex items-center gap-3 select-none translate-y-3 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+              {/* GitHub Button */}
+              <a 
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-[var(--surface)] hover:bg-[#A855F7] hover:text-white border border-[var(--border)] text-[var(--fg)] hover:border-[#A855F7] hover:scale-110 rounded-full transition-all duration-300 shadow-lg"
+                aria-label="GitHub Repository"
+              >
+                <Github size={16} />
+              </a>
+              {/* Live Demo Button */}
+              <a 
+                href={project.live}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-3 bg-[var(--surface)] hover:bg-[#A855F7] hover:text-white border border-[var(--border)] text-[var(--fg)] hover:border-[#A855F7] hover:scale-110 rounded-full transition-all duration-300 shadow-lg"
+                aria-label="Live Demo Link"
+              >
+                <ExternalLink size={16} />
+              </a>
+            </div>
+          </div>
         </div>
 
-        {/* Info & CTA details */}
-        <div className="p-6 md:p-8 flex flex-col flex-grow">
-          {/* Tech tags list */}
-          <div className="flex flex-wrap gap-1.5 mb-5 select-none">
+        {/* Info Content */}
+        <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
+          {/* Category Tag */}
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#A855F7] px-2 py-0.5 rounded bg-[#A855F7]/10 w-fit">
+              {project.category}
+            </span>
+          </div>
+
+          <h3 className="text-lg font-black mb-3 text-[var(--fg)] group-hover:text-[#A855F7] transition-colors duration-300 uppercase tracking-tight">
+            {project.title}
+          </h3>
+
+          <p className="text-[var(--text-muted)] text-xs font-semibold leading-relaxed mb-6 flex-grow">
+            {project.description}
+          </p>
+
+          {project.rating && (
+            <div className="mb-6 p-4 rounded-2xl bg-yellow-500/5 border border-yellow-500/15 backdrop-blur-md">
+              <div className="flex items-center gap-1 mb-2">
+                {[...Array(project.rating)].map((_, i) => (
+                  <svg key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+              {project.clientReview && (
+                <p className="text-[10px] text-[var(--fg)]/75 italic font-bold leading-normal">
+                  "{project.clientReview}"
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Tech stack badge tags */}
+          <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--border)]">
             {project.tech.map((t, idx) => (
               <span 
                 key={idx} 
-                className="text-[8.5px] px-3 py-1 rounded-full bg-[#7C3AED]/10 text-[#7C3AED] uppercase tracking-wider font-black border border-[#7C3AED]/20"
+                className="text-[8px] px-2.5 py-0.5 rounded-full bg-[var(--surface-lighter)] text-[var(--fg)]/70 font-bold uppercase tracking-wider border border-[var(--border)]"
               >
                 {t}
               </span>
             ))}
-          </div>
-
-          <h3 className="text-2xl font-black mb-3 text-white group-hover:text-[#06B6D4] transition-colors duration-300 italic tracking-tight uppercase">
-            {project.title}<span className="text-[#06B6D4]">.</span>
-          </h3>
-
-          <p className="text-[#94a3b8] text-xs font-medium leading-relaxed mb-6 flex-grow">
-            {project.description}
-          </p>
-
-          {project.review && (
-            <div className="mb-6 p-4 rounded-2xl bg-[#06B6D4]/5 border border-[#06B6D4]/10 text-xs text-[#94a3b8] italic font-medium relative select-none">
-              <div className="flex justify-between items-center mb-2 not-italic">
-                <span className="font-mono text-[9px] uppercase tracking-wider font-black text-[#06B6D4]">
-                  Client Review
-                </span>
-                <span className="text-amber-400 font-bold text-[10px]">
-                  ⭐ {project.rating}
-                </span>
-              </div>
-              "{project.review}"
-            </div>
-          )}
-
-          <div className="flex items-center gap-3.5 mt-auto select-none pt-4 border-t border-white/5">
-            {/* GitHub button */}
-            <a 
-              href={project.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 bg-white/5 hover:bg-[#7C3AED] hover:text-white text-white border border-white/10 hover:border-[#7C3AED] transition-all duration-300 rounded-full py-3 text-[9px] font-black uppercase tracking-widest"
-            >
-              <Github size={12} /> GitHub
-            </a>
-
-            {/* Live demo button */}
-            <a 
-              href={project.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 bg-[#06B6D4]/10 hover:bg-[#06B6D4] hover:text-white text-[#06B6D4] border border-[#06B6D4]/20 hover:border-[#06B6D4] transition-all duration-300 rounded-full py-3 text-[9px] font-black uppercase tracking-widest"
-            >
-              <ExternalLink size={12} /> Live Demo
-            </a>
           </div>
         </div>
 
@@ -97,25 +117,58 @@ const ProjectItem: React.FC<{ project: Project; index: number }> = ({ project, i
 
 const Projects: React.FC = () => {
   const projects = portfolioData.projects;
+  const [filter, setFilter] = useState('All');
+
+  // Dynamically extract categories
+  const categories = ['All', ...Array.from(new Set(projects.map(p => p.category)))];
+
+  const filteredProjects = filter === 'All' 
+    ? projects 
+    : projects.filter(p => p.category === filter);
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+    <section id="projects" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
         
-        {/* Section Title */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[10px] uppercase font-black tracking-[0.5em] text-[#7C3AED] mb-3">03 // ARCHIVE</span>
-          <h2 className="text-4xl md:text-6xl font-black text-white italic tracking-tighter uppercase leading-[0.9]">
-            Flagship <span className="bg-gradient-to-r from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent">Creations</span>
-          </h2>
-          <div className="h-1 w-12 bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] rounded-full mt-6" />
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 select-none">
+          <div className="flex flex-col items-start text-left">
+            <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#A855F7] mb-2">03 // PORTFOLIO</span>
+            <h2 className="text-3xl md:text-5xl font-black text-[var(--fg)] uppercase tracking-tight leading-none">
+              My Projects
+            </h2>
+            <div className="h-[2px] w-12 bg-[#A855F7] mt-4" />
+          </div>
+
+          {/* Category Filter Tabs */}
+          <div className="flex flex-wrap gap-2 pt-4 md:pt-0">
+            {categories.map((cat, idx) => (
+              <button
+                key={idx}
+                onClick={() => setFilter(cat)}
+                className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-wider border transition-all focus:outline-none ${
+                  filter === cat
+                    ? 'bg-[#A855F7] text-white border-[#A855F7] shadow-lg shadow-[#A855F7]/10'
+                    : 'bg-[var(--surface)] hover:bg-[var(--surface-lighter)] text-[var(--fg)]/70 border-[var(--border)]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectItem key={index} project={project} index={index} />
-          ))}
-        </div>
+        {/* Project Gallery Grid */}
+        <motion.div 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project, index) => (
+              <ProjectCard key={project.title} project={project} index={index} />
+            ))}
+          </AnimatePresence>
+        </motion.div>
 
       </div>
     </section>

@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { generateResumePDF } from '../utils/resumeGenerator';
 
 interface NavbarProps {
   activeSection: string;
   onNavClick: (sectionId: string) => void;
+  theme: 'light' | 'dark';
+  toggleTheme: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, theme, toggleTheme }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -22,140 +26,142 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick }) => {
   const navLinks = [
     { id: 'home', name: 'Home' },
     { id: 'about', name: 'About' },
-    { id: 'skills', name: 'Skills' },
+    { id: 'services', name: 'Services' },
     { id: 'projects', name: 'Projects' },
-    { id: 'certificates', name: 'Certificates' },
-    { id: 'experience', name: 'Experience' },
     { id: 'contact', name: 'Contact' },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[100] flex justify-center pt-5 px-4 font-sans">
-      <motion.div
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`w-full max-w-5xl rounded-full transition-all duration-500 flex items-center justify-between border backdrop-blur-3xl shadow-2xl ${
+    <nav className="fixed top-0 left-0 right-0 z-[100] w-full transition-all duration-300 font-sans border-b border-transparent bg-transparent">
+      <div 
+        className={`w-full mx-auto max-w-7xl px-6 md:px-12 flex items-center justify-between transition-all duration-300 ${
           isScrolled
-            ? 'bg-[#050816]/70 py-2.5 px-6 border-[#7C3AED]/20 shadow-[#7C3AED]/10 scale-[0.98]'
-            : 'bg-[#050816]/30 py-3.5 px-8 border-white/5'
+            ? 'py-4 backdrop-blur-md bg-[var(--bg)]/85 shadow-sm border-b border-[var(--border)]'
+            : 'py-6'
         }`}
       >
         {/* Logo */}
-        <button
-          onClick={() => onNavClick('home')}
-          className="text-xl font-black bg-gradient-to-r from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent shrink-0 focus:outline-none tracking-tighter"
+        <Link
+          to="/"
+          className="text-xl font-black text-[#A855F7] tracking-tight focus:outline-none"
         >
-          ANAMIKA<span className="text-[#06B6D4]">.</span>
-        </button>
+          ANAMIKA<span className="text-[var(--fg)]">.</span>
+        </Link>
 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-1.5">
-          {navLinks.map((link) => {
-            const isActive = activeSection === link.id;
-            return (
-              <button
-                key={link.id}
-                onClick={() => onNavClick(link.id)}
-                className={`relative text-[10px] uppercase font-black tracking-[0.18em] transition-all px-3.5 py-2 rounded-full focus:outline-none select-none ${
-                  isActive ? 'text-[#06B6D4]' : 'text-[#94a3b8] hover:text-white'
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    className="absolute inset-0 bg-[#7C3AED]/10 rounded-full -z-10 border border-[#7C3AED]/20 shadow-[0_0_15px_rgba(124,58,237,0.15)]"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-                {link.name}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Right side status & CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          {/* Availability Badge */}
-          <div className="availability-badge">
-            <div className="availability-dot" />
-            <span className="text-[7.5px] font-black tracking-widest text-[#10b981]">Open to Work</span>
+        <div className="hidden md:flex items-center gap-8">
+          <div className="flex items-center gap-1">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.id;
+              return (
+                <Link
+                  key={link.id}
+                  to={link.id === 'home' ? '/' : `/${link.id}`}
+                  className={`relative text-xs uppercase tracking-wider font-bold transition-all px-4 py-2 rounded-full focus:outline-none select-none ${
+                    isActive ? 'text-[#A855F7]' : 'text-[var(--fg)]/70 hover:text-[var(--fg)]'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="nav-pill-active"
+                      className="absolute inset-0 bg-[#A855F7]/10 rounded-full -z-10 border border-[#A855F7]/20"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
 
-          {/* Hire Me CTA */}
-          <button
-            onClick={() => onNavClick('contact')}
-            className="text-[9px] font-black uppercase tracking-[0.2em] px-6 py-2.5 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white hover:shadow-[0_0_20px_rgba(124,58,237,0.4)] hover:scale-105 active:scale-95 transition-all select-none shadow-lg focus:outline-none"
-          >
-            Hire Me
-          </button>
+          <div className="flex items-center gap-4">
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] transition-all select-none focus:outline-none"
+              aria-label="Toggle Theme Mode"
+            >
+              {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+            </button>
+
+            {/* Resume button */}
+            <button
+              onClick={() => generateResumePDF()}
+              className="text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 bg-[#A855F7] text-white hover:bg-[#A855F7]/95 transition-all select-none focus:outline-none"
+            >
+              Resume
+            </button>
+          </div>
         </div>
 
-        {/* Mobile menu trigger */}
-        <button
-          className="md:hidden text-white p-2 rounded-full bg-white/5 border border-white/5 transition-all hover:border-[#7C3AED]/40"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle Mobile Menu"
-        >
-          {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </motion.div>
+        {/* Mobile controls */}
+        <div className="flex items-center gap-3 md:hidden">
+          {/* Mobile Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] text-[var(--fg)] transition-all select-none focus:outline-none"
+            aria-label="Toggle Theme Mode"
+          >
+            {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
+
+          {/* Mobile menu trigger */}
+          <button
+            className="text-[var(--fg)] p-2 rounded-full bg-[var(--surface)] border border-[var(--border)] transition-all"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle Mobile Menu"
+          >
+            {mobileMenuOpen ? <X size={16} /> : <Menu size={16} />}
+          </button>
+        </div>
+      </div>
 
       {/* Mobile Nav Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.97 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[110] bg-[#050816]/98 backdrop-blur-3xl flex flex-col items-center justify-center gap-7 md:hidden"
+            className="fixed left-0 right-0 top-[70px] z-[99] bg-[var(--bg)] border-b border-[var(--border)] py-6 shadow-xl flex flex-col items-center gap-4 md:hidden"
           >
-            <button
-              className="absolute top-6 right-6 p-3 rounded-full bg-white/5 text-white border border-white/5"
-              onClick={() => setMobileMenuOpen(false)}
-              aria-label="Close menu"
-            >
-              <X size={22} />
-            </button>
-
             {/* Links */}
-            {navLinks.map((link, i) => {
+            {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
-                <motion.div
+                <Link
                   key={link.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
-                  whileHover={{ x: 8 }}
+                  to={link.id === 'home' ? '/' : `/${link.id}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`text-xl font-bold tracking-tight focus:outline-none py-2 ${
+                    isActive ? 'text-[#A855F7]' : 'text-[var(--fg)]/70 hover:text-[var(--fg)]'
+                  }`}
                 >
-                  <button
-                    onClick={() => {
-                      onNavClick(link.id);
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`text-3xl font-black tracking-tight focus:outline-none ${
-                      isActive ? 'text-[#06B6D4]' : 'text-[#94a3b8] hover:text-white'
-                    }`}
-                  >
-                    {link.name}
-                    <span className="text-[#7C3AED]">.</span>
-                  </button>
-                </motion.div>
+                  {link.name}
+                </Link>
               );
             })}
 
-            {/* Hire button */}
-            <button
-              onClick={() => {
-                onNavClick('contact');
-                setMobileMenuOpen(false);
-              }}
-              className="mt-6 px-10 py-4 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#06B6D4] text-white font-black text-xs tracking-widest uppercase shadow-lg shadow-[#7C3AED]/20 focus:outline-none"
-            >
-              Hire Me
-            </button>
+            {/* Mobile CTAs */}
+            <div className="flex flex-col gap-3 w-full px-8 mt-4 select-none">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  generateResumePDF();
+                }}
+                className="w-full text-center py-3 rounded-full border border-[#A855F7]/20 bg-[#A855F7]/10 text-[#A855F7] font-bold text-xs tracking-wider uppercase focus:outline-none hover:bg-[#A855F7]/20 transition-all"
+              >
+                Resume
+              </button>
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full text-center py-3 rounded-full bg-[#A855F7] text-white font-bold text-xs tracking-wider uppercase shadow-lg shadow-[#A855F7]/20 focus:outline-none hover:bg-[#A855F7]/95 transition-all"
+              >
+                Hire Me
+              </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

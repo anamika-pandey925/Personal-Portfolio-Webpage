@@ -37,7 +37,7 @@ const Skills: React.FC = () => {
   const skillCategories = portfolioData.skills;
 
   return (
-    <section id="skills" className="py-24 relative overflow-hidden">
+    <section id="skills" className="py-24 relative overflow-hidden bg-[#020617]">
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
         
         {/* Section Title */}
@@ -60,7 +60,7 @@ const Skills: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: catIdx * 0.1 }}
               >
-                <GlassCard className="p-8 md:p-10 border-white/5 bg-[#0c0e25]/30 rounded-3xl h-full flex flex-col justify-between hover:border-[#7C3AED]/20 transition-all duration-500 group relative card-glow-track">
+                <GlassCard className="p-8 md:p-10 border-white/5 bg-[#0F172A]/30 rounded-3xl h-full flex flex-col justify-between hover:border-[#7C3AED]/20 transition-all duration-500 group relative card-glow-track">
                   {/* Glowing corner overlay */}
                   <div className="absolute top-0 right-0 w-24 h-24 bg-[#7C3AED]/5 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                   

@@ -2,137 +2,216 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Download, ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { generateResumePDF } from '../utils/resumeGenerator';
 
 interface HeroProps {
   onProjectsClick: () => void;
+  onContactClick: () => void;
 }
 
-const Hero: React.FC<HeroProps> = ({ onProjectsClick }) => {
+const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
   const { name, email, linkedin, github } = portfolioData.personalInfo;
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.8,
+        ease: [0.25, 1, 0.5, 1],
+      },
+    },
+  };
 
   return (
     <section 
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-16 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-[var(--bg)]"
     >
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 flex flex-col items-center text-center">
+      {/* Animated Abstract Blobs Behind Portrait */}
+      <div className="absolute right-0 top-1/4 w-[60%] h-[60%] pointer-events-none select-none z-0 hidden lg:block overflow-hidden">
+        <motion.div
+          animate={{
+            y: [0, -30, 0],
+            scale: [1, 1.1, 1],
+            rotate: [0, 45, 0],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute right-[10%] top-[20%] w-[350px] h-[350px] rounded-full bg-purple-500/10 dark:bg-purple-500/5 blur-3xl"
+        />
+        <motion.div
+          animate={{
+            y: [0, 40, 0],
+            scale: [1, 0.9, 1],
+            rotate: [0, -30, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+          className="absolute right-[25%] bottom-[15%] w-[280px] h-[280px] rounded-full bg-indigo-500/10 dark:bg-indigo-500/5 blur-3xl"
+        />
+      </div>
+
+      <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        {/* Profile Image & Glowing Border */}
+        {/* Left Info Panel */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mb-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="lg:col-span-7 flex flex-col items-start text-left"
         >
-          <div className="relative w-36 h-36 md:w-44 md:h-44 rounded-full p-1 bg-gradient-to-br from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] shadow-2xl shadow-[#7C3AED]/20 group">
-            <div className="w-full h-full rounded-full overflow-hidden bg-[#0c0e25] relative z-10">
-              <img 
-                src="/profile.jpg" 
-                alt={name} 
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
-              />
-            </div>
-            {/* Pulsing ring outer glow */}
-            <div className="absolute inset-0 rounded-full border border-white/10 z-20 pointer-events-none" />
-            <div className="absolute inset-[-4px] rounded-full bg-gradient-to-br from-[#7C3AED] to-[#06B6D4] opacity-30 blur-md -z-10 group-hover:opacity-60 transition-opacity duration-500" />
-          </div>
-          
-          {/* Online status badge */}
-          <div className="absolute bottom-2 right-2 bg-[#050816] border border-[#7C3AED]/30 px-3.5 py-1 rounded-full flex items-center gap-2 shadow-xl z-30">
-            <div className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-            <span className="text-[8px] font-black uppercase tracking-widest text-white">Online</span>
-          </div>
-        </motion.div>
-
-        {/* Small Handcrafted text */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="flex items-center gap-3 mb-8"
-        >
-          <div className="h-px w-6 bg-[#7C3AED]/30" />
-          <span className="text-[9px] uppercase font-black tracking-[0.5em] text-[#94a3b8]">
-            Handcrafted by <span className="text-white font-bold">{name}</span>
-          </span>
-          <div className="h-px w-6 bg-[#7C3AED]/30" />
-        </motion.div>
-
-        {/* Massive Typography */}
-        <div className="relative mb-8 select-none">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="text-[12vw] md:text-[8vw] font-black tracking-tighter leading-[0.85] text-white flex flex-col items-center"
+          {/* Welcome Badge */}
+          <motion.div 
+            variants={itemVariants}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 text-[#A855F7] text-xs font-bold uppercase tracking-wider mb-6"
           >
-            <span>ARCHITECTING</span>
-            <span className="bg-gradient-to-r from-[#7C3AED] via-[#3B82F6] to-[#06B6D4] bg-clip-text text-transparent filter drop-shadow-[0_0_30px_rgba(124,58,237,0.15)]">
-              COMPLEXITY
-            </span>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A855F7] animate-ping" />
+            Welcome to my space
+          </motion.div>
+
+          {/* Prominent Name */}
+          <motion.h1 
+            variants={itemVariants}
+            className="text-4xl md:text-6xl font-black tracking-tight text-[var(--fg)] leading-none mb-4 uppercase"
+          >
+            Hi, I'm <span className="text-[#A855F7]">{name}</span>
           </motion.h1>
+
+          {/* Subtitle */}
+          <motion.h2 
+            variants={itemVariants}
+            className="text-xl md:text-2xl font-extrabold text-[var(--fg)]/85 mb-6 tracking-tight uppercase text-left"
+          >
+            Frontend Developer
+          </motion.h2>
+
+          {/* Paragraphs */}
+          <motion.div 
+            variants={itemVariants}
+            className="space-y-4 mb-8 text-left text-sm md:text-base text-[var(--text-muted)] leading-relaxed font-semibold max-w-xl"
+          >
+            <p>
+              I build modern, responsive, and user-friendly web applications using React.js, JavaScript, Tailwind CSS, HTML, and CSS.
+            </p>
+            <p>
+              Passionate about transforming ideas into interactive digital experiences, I focus on creating clean interfaces, smooth user experiences, and high-performance web solutions.
+            </p>
+          </motion.div>
+
+          {/* Currently Building Badge/Card */}
+          <motion.div 
+            variants={itemVariants}
+            className="mb-10 p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/30 backdrop-blur-md max-w-md w-full text-left"
+          >
+            <span className="text-[10px] uppercase font-black tracking-widest text-[#A855F7] mb-2 block select-none">
+              🚀 Currently Building
+            </span>
+            <h3 className="text-base font-extrabold text-[var(--fg)] tracking-tight">
+              Women Safety &amp; Empowerment Platform
+            </h3>
+          </motion.div>
+
+          {/* Action CTAs */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex flex-wrap items-center gap-4 mb-10 select-none"
+          >
+            {/* Hire Me CTA */}
+            <button
+              onClick={onContactClick}
+              className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#A855F7] text-white font-bold text-xs uppercase tracking-wider hover:bg-[#A855F7]/95 transition-all shadow-lg shadow-[#A855F7]/20 active:scale-95 focus:outline-none"
+            >
+              Hire Me
+              <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+
+            {/* Download CV */}
+            <button
+              onClick={() => generateResumePDF()}
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] font-bold text-xs uppercase tracking-wider transition-all active:scale-95 focus:outline-none"
+            >
+              <Download size={13} />
+              Download CV
+            </button>
+          </motion.div>
+
+          {/* Social icons */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex items-center gap-5 text-[var(--fg)]/60"
+          >
+            <a 
+              href={github} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-[#A855F7] transition-colors" 
+              aria-label="GitHub Profile"
+            >
+              <Github size={20} />
+            </a>
+            <a 
+              href={linkedin} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-[#A855F7] transition-colors" 
+              aria-label="LinkedIn Profile"
+            >
+              <Linkedin size={20} />
+            </a>
+            <a 
+              href={`mailto:${email}`} 
+              className="hover:text-[#A855F7] transition-colors" 
+              aria-label="Send Email"
+            >
+              <Mail size={20} />
+            </a>
+          </motion.div>
+        </motion.div>
+
+        {/* Right Portrait Column */}
+        <div className="lg:col-span-5 flex justify-center z-10 relative">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 1, ease: [0.25, 1, 0.5, 1] }}
+            className="relative group w-full max-w-[340px]"
+          >
+            {/* Outline rings */}
+            <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#A855F7]/30 scale-105 group-hover:rotate-12 transition-transform duration-700 pointer-events-none" />
+            
+            {/* Main Portrait Mask */}
+            <div className="w-full aspect-square rounded-full overflow-hidden bg-[var(--surface)] border-4 border-[var(--surface)] shadow-2xl relative p-1.5">
+              <img 
+                src="/profile.png" 
+                alt={name} 
+                className="w-full h-full object-cover rounded-full group-hover:scale-105 transition-transform duration-500 select-none" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-[#A855F7]/10 to-transparent pointer-events-none rounded-full" />
+            </div>
+
+            {/* Glowing accent circle */}
+            <div className="absolute inset-[-4px] rounded-full bg-gradient-to-tr from-[#A855F7] to-indigo-500 opacity-20 blur-md -z-10 group-hover:opacity-40 transition-opacity duration-500" />
+          </motion.div>
         </div>
-
-        {/* Subtitle */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="max-w-2xl text-base md:text-xl text-[#94a3b8] leading-relaxed mb-12 font-medium space-y-2"
-        >
-          <p className="text-white font-bold tracking-wide">
-            MCA Student <span className="text-[#06B6D4] font-black">//</span> Frontend Developer
-          </p>
-          <p className="text-xs md:text-sm font-semibold tracking-widest uppercase text-[#94a3b8]/60">
-            React.js <span className="text-[#7C3AED]">•</span> JavaScript <span className="text-[#7C3AED]">•</span> Tailwind CSS
-          </p>
-        </motion.div>
-
-        {/* Action Buttons CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="flex flex-wrap items-center justify-center gap-5 mb-16"
-        >
-          {/* View Projects */}
-          <button
-            onClick={onProjectsClick}
-            className="group relative inline-flex items-center gap-3.5 px-8 py-4.5 rounded-full bg-white text-black font-black text-[10px] uppercase tracking-[0.3em] hover:bg-[#7C3AED] hover:text-white transition-all duration-500 overflow-hidden shadow-2xl shadow-white/5 active:scale-95 focus:outline-none"
-          >
-            View Projects
-            <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform duration-350" />
-          </button>
-
-          {/* Download Resume */}
-          <a
-            href="/resume.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3.5 px-8 py-4.5 rounded-full border border-white/10 bg-white/5 text-white font-black text-[10px] uppercase tracking-[0.3em] hover:border-[#06B6D4]/50 hover:bg-[#06B6D4]/10 hover:text-[#06B6D4] transition-all backdrop-blur-xl active:scale-95 shadow-lg"
-          >
-            <Download size={14} />
-            Download Resume
-          </a>
-        </motion.div>
-
-        {/* Social Quick Links */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="flex items-center gap-6"
-        >
-          <a href={github} target="_blank" rel="noopener noreferrer" className="text-[#94a3b8] hover:text-white transition-colors" aria-label="GitHub">
-            <Github size={20} />
-          </a>
-          <a href={linkedin} target="_blank" rel="noopener noreferrer" className="text-[#94a3b8] hover:text-white transition-colors" aria-label="LinkedIn">
-            <Linkedin size={20} />
-          </a>
-          <a href={`mailto:${email}`} className="text-[#94a3b8] hover:text-white transition-colors" aria-label="Email">
-            <Mail size={20} />
-          </a>
-        </motion.div>
 
       </div>
     </section>

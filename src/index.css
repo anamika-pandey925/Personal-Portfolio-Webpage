@@ -4,24 +4,35 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Root & Color Scheme ─────────────────────────────── */
 :root {
-  color-scheme: dark;
+  color-scheme: light;
+  --bg: #FFFFFF;
+  --fg: #111827;
+  --surface: #F8FAFC;
+  --surface-lighter: #F1F5F9;
+  --border: rgba(0, 0, 0, 0.06);
+  --primary: #A855F7;
+  --primary-glow: rgba(168, 85, 247, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(168, 85, 247, 0.1);
+  --text-muted: #64748B;
   --cursor-size: 10px;
   --cursor-ring: 36px;
   --scroll-progress: 0%;
+}
 
-  /* Dark Cyberpunk Theme Variables */
-  --bg: #050816;
-  --fg: #E2E8F0;
-  --surface: #0c0e25;
-  --surface-lighter: #171a40;
+.dark {
+  color-scheme: dark;
+  --bg: #0F172A;
+  --fg: #F8FAFC;
+  --surface: #1E293B;
+  --surface-lighter: #334155;
   --border: rgba(255, 255, 255, 0.08);
-  --primary: #7C3AED;
-  --primary-glow: rgba(124, 58, 237, 0.15);
-  --glass-bg: rgba(5, 8, 22, 0.75);
-  --glass-border: rgba(124, 58, 237, 0.12);
-  --text-muted: #94a3b8;
+  --primary: #A855F7;
+  --primary-glow: rgba(168, 85, 247, 0.15);
+  --glass-bg: rgba(15, 23, 42, 0.75);
+  --glass-border: rgba(168, 85, 247, 0.15);
+  --text-muted: #94A3B8;
 }
 
 
@@ -67,7 +78,7 @@ body {
   left: 0;
   width: var(--cursor-size);
   height: var(--cursor-size);
-  background: #6366f1;
+  background: var(--primary);
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
@@ -373,11 +384,11 @@ body.cursor-hover .custom-cursor-ring {
 
 /* ─── Input fields ───────────────────────────────────── */
 .input-premium {
-  background: rgba(7, 4, 26, 0.6);
-  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--surface-lighter);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 14px 18px;
-  color: #e2e8f0;
+  color: var(--fg);
   font-family: inherit;
   font-size: 0.9rem;
   width: 100%;
@@ -386,13 +397,14 @@ body.cursor-hover .custom-cursor-ring {
 }
 
 .input-premium::placeholder {
-  color: rgba(148,163,184,0.4);
+  color: var(--text-muted);
+  opacity: 0.5;
 }
 
 .input-premium:focus {
-  border-color: rgba(99, 102, 241, 0.6);
-  background: rgba(7, 4, 26, 0.8);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.15), 0 0 20px rgba(99,102,241,0.1);
+  border-color: var(--primary);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
 }
 
 /* ─── Filter Tab ─────────────────────────────────────── */
@@ -651,3 +663,32 @@ body.cursor-hover .custom-cursor-ring {
     }
   }
 }
+
+/* Lenis Smooth Scroll rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overflow: clip;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Horizontal projects container styles */
+.horizontal-scroll-container {
+  display: flex;
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+

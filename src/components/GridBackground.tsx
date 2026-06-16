@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const GridBackground: React.FC = () => {
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#050816]">
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#020617]">
       {/* Neo-Grid Overlay */}
       <div className="absolute inset-0 tech-grid opacity-[0.06]" />
 
