@@ -133,17 +133,17 @@ export const generateResumePDF = async (): Promise<void> => {
       </header>
 
       <!-- Main Layout Grid -->
-      <div class="grid grid-cols-[1.65fr_1fr] gap-8 items-stretch" style="min-height: 800px;">
+      <div class="grid grid-cols-[1.2fr_1fr] gap-8 items-stretch" style="min-height: 800px; height: auto; min-height: fit-content; overflow: visible;">
         <!-- Left Column (Main Content) -->
-        <div class="flex flex-col gap-5" style="border-right: 1px solid #f1f5f9; padding-right: 20px;">
+        <div class="flex flex-col gap-5" style="border-right: 1px solid #f1f5f9; padding-right: 20px; height: auto; min-height: fit-content; overflow: visible; flex-grow: 1;">
           <!-- Summary -->
           ${about ? `
-            <section>
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
               <div class="flex items-center gap-2 mb-2">
                 <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">01 // Professional Summary</span>
                 <div class="flex-grow h-[1px] bg-slate-100"></div>
               </div>
-              <p class="text-[10.5px] leading-relaxed text-slate-600 font-medium">
+              <p class="text-[10.5px] leading-relaxed text-slate-600 font-medium" style="word-wrap: break-word; overflow-wrap: break-word;">
                 ${about}
               </p>
             </section>
@@ -151,77 +151,77 @@ export const generateResumePDF = async (): Promise<void> => {
 
           <!-- Experience -->
           ${experienceHtml ? `
-            <section>
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
               <div class="flex items-center gap-2 mb-2">
                 <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">02 // Experience</span>
                 <div class="flex-grow h-[1px] bg-slate-100"></div>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-3" style="word-wrap: break-word; overflow-wrap: break-word;">
                 ${experienceHtml}
-              </div>
-            </section>
-          ` : ''}
-
-          <!-- Projects -->
-          ${projectsHtml ? `
-            <section>
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">03 // Projects</span>
-                <div class="flex-grow h-[1px] bg-slate-100"></div>
-              </div>
-              <div class="space-y-3">
-                ${projectsHtml}
-              </div>
-            </section>
-          ` : ''}
-        </div>
-
-        <!-- Right Column (Sidebar) -->
-        <div class="flex flex-col gap-5">
-          <!-- Skills -->
-          ${skillsHtml ? `
-            <section>
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">04 // Technical Stack</span>
-                <div class="flex-grow h-[1px] bg-slate-100"></div>
-              </div>
-              <div class="flex flex-wrap">
-                ${skillsHtml}
-              </div>
-            </section>
-          ` : ''}
-
-          <!-- Education -->
-          ${educationHtml ? `
-            <section>
-              <div class="flex items-center gap-2 mb-2">
-                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">05 // Education</span>
-                <div class="flex-grow h-[1px] bg-slate-100"></div>
-              </div>
-              <div>
-                ${educationHtml}
               </div>
             </section>
           ` : ''}
 
           <!-- Certifications -->
           ${certificatesHtml ? `
-            <section>
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
               <div class="flex items-center gap-2 mb-2">
-                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">06 // Certificates</span>
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">03 // Certificates</span>
                 <div class="flex-grow h-[1px] bg-slate-100"></div>
               </div>
-              <div>
+              <div style="word-wrap: break-word; overflow-wrap: break-word;">
                 ${certificatesHtml}
+              </div>
+            </section>
+          ` : ''}
+        </div>
+
+        <!-- Right Column (Sidebar) -->
+        <div class="flex flex-col gap-5" style="height: auto; min-height: fit-content; overflow: visible; flex-grow: 1;">
+          <!-- Skills -->
+          ${skillsHtml ? `
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">04 // Technical Stack</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div class="flex flex-wrap" style="word-wrap: break-word; overflow-wrap: break-word;">
+                ${skillsHtml}
+              </div>
+            </section>
+          ` : ''}
+
+          <!-- Projects -->
+          ${projectsHtml ? `
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">05 // Projects</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div class="space-y-3" style="word-wrap: break-word; overflow-wrap: break-word;">
+                ${projectsHtml}
+              </div>
+            </section>
+          ` : ''}
+
+          <!-- Education -->
+          ${educationHtml ? `
+            <section style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">06 // Education</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div style="word-wrap: break-word; overflow-wrap: break-word;">
+                ${educationHtml}
               </div>
             </section>
           ` : ''}
 
           <!-- Personality Note -->
           ${achievements && achievements.length > 0 ? `
-            <section class="mt-auto pt-5 border-t border-slate-100">
+            <section class="mt-auto pt-5 border-t border-slate-100" style="page-break-inside: avoid; break-inside: avoid; height: auto; min-height: fit-content; overflow: visible;">
               ${achievements.map(ach => `
-                <p class="text-[9.5px] text-slate-500 leading-relaxed italic font-medium">
+                <p class="text-[9.5px] text-slate-500 leading-relaxed italic font-medium" style="word-wrap: break-word; overflow-wrap: break-word;">
                   "${ach}"
                 </p>
               `).join('')}
