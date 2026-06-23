@@ -30,7 +30,8 @@ export const generateResumePDF = async (): Promise<void> => {
     resumeContainer.style.left = '-9999px';
     resumeContainer.style.top = '0';
     resumeContainer.style.width = '800px';
-    resumeContainer.style.height = '1130px'; // Exact A4 ratio height
+    resumeContainer.style.height = 'auto';
+    resumeContainer.style.minHeight = '1130px';
     resumeContainer.style.backgroundColor = '#ffffff';
     resumeContainer.style.color = '#1e293b';
     resumeContainer.style.padding = '40px 45px';
@@ -237,7 +238,9 @@ export const generateResumePDF = async (): Promise<void> => {
       scale: 2, // High resolution output
       useCORS: true,
       logging: false,
-      backgroundColor: '#ffffff'
+      backgroundColor: '#ffffff',
+      windowWidth: resumeContainer.scrollWidth,
+      windowHeight: resumeContainer.scrollHeight
     });
 
     const imgData = canvas.toDataURL('image/png');
@@ -247,7 +250,26 @@ export const generateResumePDF = async (): Promise<void> => {
     const pdfWidth = pdf.internal.pageSize.getWidth(); // 210mm
     const pdfHeight = pdf.internal.pageSize.getHeight(); // 297mm
     
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    const imgWidth = pdfWidth; // 210
+    const imgHeight = (canvas.height / canvas.width) * imgWidth;
+    const pageHeightPx = (canvas.width * pdfHeight) / imgWidth;
+    
+    let heightLeft = canvas.height;
+    let positionPx = 0;
+    let page = 0;
+    
+    while (heightLeft > 0) {
+      if (page > 0) {
+        pdf.addPage();
+      }
+      
+      const positionMm = -(positionPx / canvas.width) * imgWidth;
+      pdf.addImage(imgData, 'PNG', 0, positionMm, imgWidth, imgHeight, undefined, 'FAST');
+      
+      positionPx += pageHeightPx;
+      heightLeft -= pageHeightPx;
+      page++;
+    }
     
     // 6. Save PDF
     pdf.save('Anamika_Pandey_Resume.pdf');
