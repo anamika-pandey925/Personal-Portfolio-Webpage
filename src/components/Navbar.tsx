@@ -82,16 +82,6 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, theme, toggl
             >
               {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
             </button>
-
-            {/* Resume button */}
-            <a
-              href="/resume"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-full border border-white/10 bg-[#A855F7] text-white hover:bg-[#A855F7]/95 transition-all select-none focus:outline-none"
-            >
-              Resume
-            </a>
           </div>
         </div>
 
@@ -144,17 +134,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavClick, theme, toggl
               );
             })}
 
-            {/* Mobile CTAs */}
             <div className="flex flex-col gap-3 w-full px-8 mt-4 select-none">
-              <a
-                href="/resume"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center py-3 rounded-full border border-[#A855F7]/20 bg-[#A855F7]/10 text-[#A855F7] font-bold text-xs tracking-wider uppercase focus:outline-none hover:bg-[#A855F7]/20 transition-all"
-              >
-                Resume
-              </a>
               <Link
                 to="/contact"
                 onClick={() => setMobileMenuOpen(false)}

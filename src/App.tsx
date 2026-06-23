@@ -13,7 +13,6 @@ import Experience from './components/Experience';
 import GithubStats from './components/GithubStats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Resume from './components/Resume';
 import { portfolioData } from './data/portfolioData';
 
 // Helper component to scroll to top on route change
@@ -137,8 +136,6 @@ const AppContent: React.FC = () => {
           <Route path="/projects" element={<Projects />} />
           
           <Route path="/contact" element={<Contact />} />
-          
-          <Route path="/resume" element={<Resume />} />
         </Routes>
       </main>
 
