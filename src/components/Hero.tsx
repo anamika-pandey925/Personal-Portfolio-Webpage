@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import { Download, ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
+import { generateResumePDF } from '../utils/resumeGenerator';
 
 const FiverrIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
   <svg 
@@ -155,6 +156,15 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
             >
               Hire Me
               <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+ 
+            {/* Download CV */}
+            <button
+              onClick={() => generateResumePDF()}
+              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] font-bold text-xs uppercase tracking-wider transition-all active:scale-95 focus:outline-none"
+            >
+              <Download size={13} />
+              Download CV
             </button>
           </motion.div>
 
