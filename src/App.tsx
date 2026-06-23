@@ -60,7 +60,7 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     document.title = `${portfolioData.name} | Portfolio`;
-  }, []);
+  }, [location.pathname]);
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
