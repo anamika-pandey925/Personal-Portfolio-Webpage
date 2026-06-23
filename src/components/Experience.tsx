@@ -76,7 +76,7 @@ const ExperienceNode: React.FC<{ item: ExperienceItem; index: number }> = ({ ite
 };
 
 const Experience: React.FC = () => {
-  const experiences = portfolioData.experience;
+  const experiences = portfolioData.internships;
 
   return (
     <section id="experience" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">

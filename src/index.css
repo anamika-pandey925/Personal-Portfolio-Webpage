@@ -78,13 +78,14 @@ body {
   left: 0;
   width: var(--cursor-size);
   height: var(--cursor-size);
-  background: var(--primary);
+  background: #7C3AED;
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
   transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, background 0.2s;
-  mix-blend-mode: screen;
+  mix-blend-mode: normal;
+  opacity: 1;
 }
 
 .custom-cursor-ring {
@@ -93,7 +94,7 @@ body {
   left: 0;
   width: var(--cursor-ring);
   height: var(--cursor-ring);
-  border: 1.5px solid var(--glass-border);
+  border: 1.5px solid rgba(124, 90, 237, 0.5);
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
@@ -103,18 +104,19 @@ body {
               border-color 0.3s,
               left 0.08s linear,
               top 0.08s linear;
+  opacity: 1;
 }
 
 body.cursor-hover .custom-cursor-dot {
   width: 6px;
   height: 6px;
-  background: var(--primary);
+  background: #7C3AED;
 }
 body.cursor-hover .custom-cursor-ring {
   width: 56px;
   height: 56px;
-  border-color: var(--primary);
-  background: var(--primary-glow);
+  border-color: #7C3AED;
+  background: rgba(124, 90, 237, 0.15);
 }
 
 /* ─── LLM Marquee ───────────────────────────────────── */

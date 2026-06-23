@@ -43,27 +43,12 @@ export interface EducationItem {
 }
 
 export const portfolioData = {
-  personalInfo: {
-    name: 'Anamika Pandey',
-    email: 'anamika758287@gmail.com',
-    whatsapp: '918799735545',
-    linkedin: 'https://www.linkedin.com/in/anamika-pandey-96598b228/',
-    github: 'https://github.com/anamika-pandey925',
-    location: 'Delhi, India',
-    bio: 'MCA Graduate specializing in building responsive, high-performance web applications and sleek UI/UX designs. Guided by the structured precision and creative discipline of classical dance, I treat code like choreography—fluid, precise, and purposeful.',
-  },
+  name: 'Anamika Pandey',
+  role: 'Frontend Developer',
+  profileImage: '/profile.png',
+  about: 'MCA Graduate specializing in building responsive, high-performance web applications and sleek UI/UX designs. Guided by the structured precision and creative discipline of classical dance, I treat code like choreography—fluid, precise, and purposeful.',
   
   projects: [
-    {
-      title: "Women's Safety Platform (Suraksha)",
-      description: 'A responsive safety portal featuring instant SOS alerts, real-time location sharing, emergency contact management, and community support boards.',
-      tech: ['React.js', 'Node.js', 'Express.js', 'WebSockets', 'Tailwind CSS'],
-      image: '/women-safety.png',
-      github: 'https://github.com/anamika-pandey925/women-safety-platform',
-      live: 'https://anamika-pandey925.github.io/Women-Empowerment-Safety/',
-      category: 'Web App',
-      badge: 'Active'
-    },
     {
       title: 'Interactive Quiz Application',
       description: 'A dynamic online quiz platform featuring real-time timer controls, progress tracking indicators, and detailed performance score sheets.',
@@ -135,7 +120,7 @@ export const portfolioData = {
       description: 'Successfully completed industrial project training within the web systems department, applying web development principles.'
     },
     {
-      title: 'Full Stack Internship Certificate',
+      title: 'Web Development Internship Certificate',
       organization: 'LABMENTIX PVT. LTD',
       date: 'Sep 2025 - Oct 2025',
       image: '/cert_labmentix.jpg',
@@ -164,7 +149,7 @@ export const portfolioData = {
     }
   ] as Certificate[],
 
-  experience: [
+  internships: [
     {
       role: 'Web Development Intern (Frontend)',
       company: 'Labmentix Pvt. Ltd',
@@ -214,7 +199,24 @@ export const portfolioData = {
       location: 'New Delhi, India',
       grade: '82.8%'
     }
-  ] as EducationItem[]
+  ] as EducationItem[],
+
+  contact: {
+    email: 'anamika758287@gmail.com',
+    phone: '+91 8799735545',
+    whatsapp: '918799735545',
+    location: 'Delhi, India'
+  },
+
+  socialLinks: {
+    linkedin: 'https://www.linkedin.com/in/anamika-pandey-96598b228/',
+    github: 'https://github.com/anamika-pandey925',
+    fiverr: 'https://www.fiverr.com/anamikapande437'
+  },
+
+  achievements: [
+    'I translate the meticulous discipline of Classical Dance into architectural code precision.'
+  ]
 };
 
 

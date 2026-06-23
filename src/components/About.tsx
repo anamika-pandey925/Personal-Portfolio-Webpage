@@ -32,7 +32,7 @@ const SkillProgressBar: React.FC<{ name: string; level: number; index: number }>
 };
 
 const About: React.FC = () => {
-  const { name, bio } = portfolioData.personalInfo;
+  const { name, about: bio } = portfolioData;
   const skills = portfolioData.skills;
 
   const summaryCards = [
@@ -119,7 +119,7 @@ const About: React.FC = () => {
                 I build responsive, user-friendly, and performance-driven web applications with a focus on clean UI, seamless experiences, and scalable solutions.
               </p>
               <p>
-                Currently working on a <strong className="text-[var(--fg)] font-bold">Women Safety &amp; Empowerment Platform</strong> while exploring <strong className="text-[var(--fg)] font-bold">Advanced React.js</strong> and <strong className="text-[var(--fg)] font-bold">Full-Stack Development</strong>.
+                Currently working on <strong className="text-[var(--fg)] font-bold">Advanced Web Applications</strong> while exploring <strong className="text-[var(--fg)] font-bold">Advanced React.js</strong> and <strong className="text-[var(--fg)] font-bold">Frontend Development</strong>.
               </p>
             </div>
 

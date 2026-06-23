@@ -5,7 +5,7 @@ import GlassCard from './GlassCard';
 import { portfolioData } from '../data/portfolioData';
 
 const GithubStats: React.FC = () => {
-  const { github } = portfolioData.personalInfo;
+  const { github } = portfolioData.socialLinks;
 
   // Generate a mock contribution graph grid: 7 rows (days) x 32 columns (weeks)
   const rows = 7;

@@ -15,7 +15,7 @@
 ## Checklist
 - [x] Complete Redesign (Home, About, Skills, Projects, Experience, Likes)
 - [x] Integrated tech stack and classical dance theme
-- [x] Added real GitHub repositories (Women Safety, Chat, Taskflow, etc.)
+- [x] Added real GitHub repositories (Chat, Taskflow, etc.)
 - [x] Updated print CV layout (resume.html)
 - [x] Verified build successfully compiles
 - [x] Verified navigation and dev server

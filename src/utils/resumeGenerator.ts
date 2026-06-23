@@ -22,7 +22,7 @@ export const generateResumePDF = async (): Promise<void> => {
   document.body.appendChild(toast);
 
   try {
-    const { personalInfo, experience, projects, skills, education, certificates } = portfolioData;
+    const { name, role, about, skills, projects, certificates, internships, education, contact, socialLinks, achievements } = portfolioData;
 
     // 2. Create offscreen container
     const resumeContainer = document.createElement('div');
@@ -39,9 +39,8 @@ export const generateResumePDF = async (): Promise<void> => {
     resumeContainer.style.zIndex = '-9999';
 
     // 3. Build HTML structure
-    const experienceHtml = experience
-      .slice(0, 3) // Take up to 3 experiences to fit in 1 page
-      .map(exp => `
+    const experienceHtml = internships
+      ? internships.map(exp => `
         <div class="mb-4">
           <div class="flex justify-between items-baseline mb-0.5">
             <h4 class="font-extrabold text-[#0f172a] text-[12px] uppercase tracking-tight">${exp.role}</h4>
@@ -50,11 +49,11 @@ export const generateResumePDF = async (): Promise<void> => {
           <div class="text-[9px] font-bold text-[#4F46E5] uppercase tracking-wider mb-1">${exp.company} // ${exp.location}</div>
           <p class="text-[10.5px] text-slate-600 leading-relaxed font-medium">${exp.description}</p>
         </div>
-      `).join('');
+      `).join('')
+      : '';
 
     const projectsHtml = projects
-      .slice(0, 3) // Take up to 3 projects
-      .map(proj => `
+      ? projects.map(proj => `
         <div class="mb-3">
           <div class="flex justify-between items-baseline">
             <h5 class="font-bold text-[#0f172a] text-[11px]">${proj.title}</h5>
@@ -63,33 +62,36 @@ export const generateResumePDF = async (): Promise<void> => {
           <div class="text-[8.5px] font-bold text-[#4F46E5] uppercase tracking-widest mb-0.5">${proj.tech.join(', ')}</div>
           <p class="text-[10.5px] text-slate-500 leading-relaxed">${proj.description}</p>
         </div>
-      `).join('');
+      `).join('')
+      : '';
 
     const skillsHtml = skills
-      .map(skill => `
+      ? skills.map(skill => `
         <span class="px-2 py-1 bg-slate-50 text-slate-700 text-[8px] font-black uppercase tracking-widest border border-slate-100 rounded-md mb-1.5 mr-1.5 inline-block">
           ${skill.name}
         </span>
-      `).join('');
+      `).join('')
+      : '';
 
     const educationHtml = education
-      .map(edu => `
+      ? education.map(edu => `
         <div class="mb-3">
           <p class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-widest mb-0.5">${edu.period}</p>
           <h5 class="font-extrabold text-[#0f172a] text-[11px] leading-tight">${edu.degree}</h5>
           <p class="text-[9.5px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">${edu.institution}</p>
           ${edu.grade ? `<span class="inline-block mt-0.5 text-[8px] font-black bg-slate-50 px-1 py-0.5 rounded text-slate-400 border border-slate-100 tracking-widest">Grade: ${edu.grade}</span>` : ''}
         </div>
-      `).join('');
+      `).join('')
+      : '';
 
     const certificatesHtml = certificates
-      .slice(0, 3)
-      .map(cert => `
+      ? certificates.map(cert => `
         <div class="mb-2 text-[9.5px]">
           <p class="font-bold text-[#0f172a]">${cert.title}</p>
           <p class="text-slate-500 uppercase tracking-widest text-[8px] font-bold">${cert.organization} // ${cert.date.split(' ')[0]} ${cert.date.split(' ').slice(-1)[0]}</p>
         </div>
-      `).join('');
+      `).join('')
+      : '';
 
     resumeContainer.innerHTML = `
       <!-- Top header line -->
@@ -97,25 +99,35 @@ export const generateResumePDF = async (): Promise<void> => {
       
       <!-- Main Header -->
       <header class="mb-6">
-        <h1 class="text-3xl font-extrabold text-[#0f172a] tracking-tighter mb-0.5">${personalInfo.name}</h1>
-        <p class="text-sm font-black text-[#4F46E5] uppercase tracking-[0.2em] italic mb-4">Frontend Developer // React.js Specialist</p>
+        ${name ? `<h1 class="text-3xl font-extrabold text-[#0f172a] tracking-tighter mb-0.5">${name}</h1>` : ''}
+        ${role ? `<p class="text-sm font-black text-[#4F46E5] uppercase tracking-[0.2em] italic mb-4">${role}</p>` : ''}
         
         <div class="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-[9px] font-bold text-slate-500 uppercase tracking-widest border-t border-b border-slate-100 py-2.5">
-          <div class="flex items-center gap-1">
-            <span class="text-[#4F46E5] opacity-70">Loc:</span> <span class="text-slate-800">${personalInfo.location}</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span class="text-[#4F46E5] opacity-70">Email:</span> <span class="text-slate-800">${personalInfo.email}</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span class="text-[#4F46E5] opacity-70">WhatsApp:</span> <span class="text-slate-800">+91 8799735545</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span class="text-[#4F46E5] opacity-70">GitHub:</span> <span class="text-slate-800">github.com/anamika-pandey925</span>
-          </div>
-          <div class="flex items-center gap-1">
-            <span class="text-[#4F46E5] opacity-70">LinkedIn:</span> <span class="text-slate-800">linkedin.com/in/anamika-pandey</span>
-          </div>
+          ${contact?.location ? `
+            <div class="flex items-center gap-1">
+              <span class="text-[#4F46E5] opacity-70">Loc:</span> <span class="text-slate-800">${contact.location}</span>
+            </div>
+          ` : ''}
+          ${contact?.email ? `
+            <div class="flex items-center gap-1">
+              <span class="text-[#4F46E5] opacity-70">Email:</span> <span class="text-slate-800">${contact.email}</span>
+            </div>
+          ` : ''}
+          ${contact?.phone ? `
+            <div class="flex items-center gap-1">
+              <span class="text-[#4F46E5] opacity-70">WhatsApp:</span> <span class="text-slate-800">${contact.phone}</span>
+            </div>
+          ` : ''}
+          ${socialLinks?.github ? `
+            <div class="flex items-center gap-1">
+              <span class="text-[#4F46E5] opacity-70">GitHub:</span> <span class="text-slate-800">${socialLinks.github.replace('https://', '')}</span>
+            </div>
+          ` : ''}
+          ${socialLinks?.linkedin ? `
+            <div class="flex items-center gap-1">
+              <span class="text-[#4F46E5] opacity-70">LinkedIn:</span> <span class="text-slate-800">${socialLinks.linkedin.replace('https://www.', '').replace('https://', '')}</span>
+            </div>
+          ` : ''}
         </div>
       </header>
 
@@ -124,80 +136,96 @@ export const generateResumePDF = async (): Promise<void> => {
         <!-- Left Column (Main Content) -->
         <div class="flex flex-col gap-5" style="border-right: 1px solid #f1f5f9; padding-right: 20px;">
           <!-- Summary -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">01 // Professional Summary</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <p class="text-[10.5px] leading-relaxed text-slate-600 font-medium">
-              ${personalInfo.bio}
-            </p>
-          </section>
+          ${about ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">01 // Professional Summary</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <p class="text-[10.5px] leading-relaxed text-slate-600 font-medium">
+                ${about}
+              </p>
+            </section>
+          ` : ''}
 
           <!-- Experience -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">02 // Experience</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <div class="space-y-3">
-              ${experienceHtml}
-            </div>
-          </section>
+          ${experienceHtml ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">02 // Experience</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div class="space-y-3">
+                ${experienceHtml}
+              </div>
+            </section>
+          ` : ''}
 
           <!-- Projects -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">03 // Projects</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <div class="space-y-3">
-              ${projectsHtml}
-            </div>
-          </section>
+          ${projectsHtml ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">03 // Projects</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div class="space-y-3">
+                ${projectsHtml}
+              </div>
+            </section>
+          ` : ''}
         </div>
 
         <!-- Right Column (Sidebar) -->
         <div class="flex flex-col gap-5">
           <!-- Skills -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">04 // Technical Stack</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <div class="flex flex-wrap">
-              ${skillsHtml}
-            </div>
-          </section>
+          ${skillsHtml ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">04 // Technical Stack</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div class="flex flex-wrap">
+                ${skillsHtml}
+              </div>
+            </section>
+          ` : ''}
 
           <!-- Education -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">05 // Education</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <div>
-              ${educationHtml}
-            </div>
-          </section>
+          ${educationHtml ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">05 // Education</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div>
+                ${educationHtml}
+              </div>
+            </section>
+          ` : ''}
 
           <!-- Certifications -->
-          <section>
-            <div class="flex items-center gap-2 mb-2">
-              <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">06 // Certificates</span>
-              <div class="flex-grow h-[1px] bg-slate-100"></div>
-            </div>
-            <div>
-              ${certificatesHtml}
-            </div>
-          </section>
+          ${certificatesHtml ? `
+            <section>
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-[8.5px] font-black text-[#4F46E5] uppercase tracking-[0.2em]">06 // Certificates</span>
+                <div class="flex-grow h-[1px] bg-slate-100"></div>
+              </div>
+              <div>
+                ${certificatesHtml}
+              </div>
+            </section>
+          ` : ''}
 
           <!-- Personality Note -->
-          <section class="mt-auto pt-5 border-t border-slate-100">
-            <p class="text-[9.5px] text-slate-500 leading-relaxed italic font-medium">
-              "I translate the meticulous discipline of classical Indian dance into structured, fluid, and purposeful frontend code."
-            </p>
-          </section>
+          ${achievements && achievements.length > 0 ? `
+            <section class="mt-auto pt-5 border-t border-slate-100">
+              ${achievements.map(ach => `
+                <p class="text-[9.5px] text-slate-500 leading-relaxed italic font-medium">
+                  "${ach}"
+                </p>
+              `).join('')}
+            </section>
+          ` : ''}
         </div>
       </div>
     `;
