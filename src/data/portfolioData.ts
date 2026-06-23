@@ -56,7 +56,7 @@ export const portfolioData = {
       image: '/interactive-quiz.png',
       github: 'https://github.com/anamika-pandey925/INTERACTIVE-QUIZ-APPLICATION',
       live: 'https://anamika-pandey925.github.io/INTERACTIVE-QUIZ-APPLICATION/',
-      category: 'Vanilla JS'
+      category: 'Web Design'
     },
     {
       title: 'E-Learning Platform',
@@ -74,7 +74,7 @@ export const portfolioData = {
       image: '/step-up-dance.jpg',
       github: 'https://github.com/anamika-pandey925/step-up-dance-academy',
       live: 'https://step-up-dance-academy-coral.vercel.app/',
-      category: 'Web App',
+      category: 'Web Design',
       badge: 'First Client Project',
       rating: 5,
       clientReview: 'Anamika created a stunning, highly responsive site for our dance academy. It is fast, beautifully structured, and has greatly boosted our registrations!'
