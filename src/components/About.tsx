@@ -119,7 +119,7 @@ const About: React.FC = () => {
                 I build responsive, user-friendly, and performance-driven web applications with a focus on clean UI, seamless experiences, and scalable solutions.
               </p>
               <p>
-                Currently working on <strong className="text-[var(--fg)] font-bold">Advanced Web Applications</strong> while exploring <strong className="text-[var(--fg)] font-bold">Advanced React.js</strong> and <strong className="text-[var(--fg)] font-bold">Frontend Development</strong>.
+                Currently working on <strong className="text-[var(--fg)] font-bold">Women Safety & Empowerment Platform</strong> while exploring <strong className="text-[var(--fg)] font-bold">Advanced React.js</strong> and <strong className="text-[var(--fg)] font-bold">Frontend Development</strong>.
               </p>
             </div>
 

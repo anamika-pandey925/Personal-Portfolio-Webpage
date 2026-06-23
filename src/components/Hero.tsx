@@ -140,7 +140,7 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
               🚀 Currently Building
             </span>
             <h3 className="text-base font-extrabold text-[var(--fg)] tracking-tight">
-              Advanced Web Applications
+              Women Safety & Empowerment Platform
             </h3>
           </motion.div>
 
