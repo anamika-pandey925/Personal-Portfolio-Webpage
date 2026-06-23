@@ -14,6 +14,7 @@ import GithubStats from './components/GithubStats';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Resume from './components/Resume';
+import { portfolioData } from './data/portfolioData';
 
 // Helper component to scroll to top on route change
 const ScrollToTop: React.FC<{ lenis: Lenis | null }> = ({ lenis }) => {
@@ -56,6 +57,10 @@ const AppContent: React.FC = () => {
     }
     localStorage.setItem('theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    document.title = `${portfolioData.name} | Portfolio`;
+  }, []);
 
   const toggleTheme = () => {
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));

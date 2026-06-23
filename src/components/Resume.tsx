@@ -18,6 +18,10 @@ const FiverrIcon: React.FC<{ size?: number; className?: string }> = ({ size = 12
 const Resume: React.FC = () => {
   const { name, role, about, skills, projects, certificates, internships, education, contact, socialLinks, achievements } = portfolioData;
 
+  React.useEffect(() => {
+    document.title = `${name} | Portfolio`;
+  }, [name]);
+
   return (
     <div className="min-h-screen bg-slate-100 py-8 font-sans text-slate-800 antialiased print:bg-white print:py-0 select-none">
       {/* Header controls (hidden on print) */}
