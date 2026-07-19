@@ -60,6 +60,38 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
         leetcodeClean ? `leetcode.com/u/Anamaika/` : ''
       ].filter(Boolean).join(' | ');
 
+      const cvEducationHtml = education
+        ? education.map((edu, idx) => {
+            let inst = edu.institution;
+            if (inst.includes('Bharati Vidyapeeth')) {
+              inst = 'Bharati Vidyapeeth';
+            }
+            if (inst.includes('Rajkiye Pratibha Vikas Vidyalaya')) {
+              inst = 'Rajkiye Pratibha Vikas Vidyalaya Paschim Vihar A-6 (CBSE)';
+            }
+            
+            let gradeStr = '';
+            if (edu.grade) {
+              const cleanGrade = edu.grade.replace('A Grade', '').replace('Grade:', '').replace('(', '').replace(')', '').trim();
+              gradeStr = ` | ${cleanGrade}`;
+            }
+
+            return `
+              <div class="${idx > 0 ? 'mt-3' : ''}">
+                <div class="flex justify-between items-baseline mb-0.5">
+                  <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">
+                    ${edu.degree}
+                  </h4>
+                  <span class="text-[9px] font-bold text-slate-500">${edu.period}</span>
+                </div>
+                <div class="text-[9.5px] text-slate-600 font-semibold">
+                  ${inst}${gradeStr}
+                </div>
+              </div>
+            `;
+          }).join('')
+        : '';
+
       resumeContainer.innerHTML = `
         <div class="px-2 py-2" style="font-family: 'Inter', sans-serif;">
           <!-- Name & Title -->
@@ -291,25 +323,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
               Education
             </h3>
             <div class="space-y-3">
-              <div class="flex justify-between items-baseline mb-0.5">
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">
-                  Master of Computer Applications (MCA)
-                </h4>
-                <span class="text-[9px] font-bold text-slate-500">2024 – 2026</span>
-              </div>
-              <div class="text-[9.5px] text-slate-600 font-semibold">
-                Galgotias University | CGPA: 7.96
-              </div>
-              
-              <div class="flex justify-between items-baseline mb-0.5 mt-2">
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">
-                  Bachelor of Computer Applications (BCA)
-                </h4>
-                <span class="text-[9px] font-bold text-slate-500">2020 – 2023</span>
-              </div>
-              <div class="text-[9.5px] text-slate-600 font-semibold">
-                Bharati Vidyapeeth | CGPA: 8.28
-              </div>
+              ${cvEducationHtml}
             </div>
           </section>
         </div>
