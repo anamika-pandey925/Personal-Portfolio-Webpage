@@ -1,6 +1,6 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Download, ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Download, ArrowRight, Github, Linkedin, Mail, X, Check, FileText } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { generateResumePDF } from '../utils/resumeGenerator';
 
@@ -16,6 +16,26 @@ const FiverrIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20
   </svg>
 );
 
+const LeetCodeIcon: React.FC<{ size?: number; className?: string }> = ({ size = 20, className }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    width={size} 
+    height={size} 
+    className={className}
+  >
+    {/* Orange bracket */}
+    <path 
+      d="M16.102 17.93l-2.697 2.607c-.466.451-1.211.451-1.677 0l-4.51-4.359a1.096 1.096 0 0 1 0-1.62l4.51-4.359c.466-.451 1.211-.451 1.677 0l2.697 2.606a1.18 1.18 0 0 1-.03 1.701l-1.954 1.888a.294.294 0 0 0-.03.424l1.984 1.917a1.18 1.18 0 0 1 .03 1.701z" 
+      fill="#FFA116" 
+    />
+    {/* White/CurrentColor elements */}
+    <path 
+      d="M17.098 14.225l3.226-3.118a1.21 1.21 0 0 0 0-1.748l-8.232-7.958a1.21 1.21 0 0 0-1.714 0l-8.232 7.958a1.21 1.21 0 0 0 0 1.748l3.226 3.118 4.292-4.148c.81-.784 2.112-.784 2.922 0l4.51 4.359a.302.302 0 0 0 .426 0l2.302-2.21z" 
+      fill="currentColor" 
+    />
+  </svg>
+);
+
 interface HeroProps {
   onProjectsClick: () => void;
   onContactClick: () => void;
@@ -24,7 +44,7 @@ interface HeroProps {
 const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
   const { name } = portfolioData;
   const { email } = portfolioData.contact;
-  const { linkedin, github, fiverr } = portfolioData.socialLinks;
+  const { linkedin, github, fiverr, leetcode } = portfolioData.socialLinks;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -160,7 +180,7 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
  
             {/* Download CV */}
             <button
-              onClick={() => generateResumePDF()}
+              onClick={() => generateResumePDF('modern')}
               className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full border border-[var(--border)] bg-[var(--surface)] hover:bg-[var(--surface-lighter)] hover:text-[#A855F7] text-[var(--fg)] font-bold text-xs uppercase tracking-wider transition-all active:scale-95 focus:outline-none"
             >
               <Download size={13} />
@@ -200,6 +220,17 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
             >
               <FiverrIcon size={24} />
             </a>
+            {leetcode && (
+              <a 
+                href={leetcode} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="hover:text-[#A855F7] transition-colors" 
+                aria-label="LeetCode Profile"
+              >
+                <LeetCodeIcon size={22} />
+              </a>
+            )}
             <a 
               href={`mailto:${email}`} 
               className="hover:text-[#A855F7] transition-colors" 
@@ -237,6 +268,7 @@ const Hero: React.FC<HeroProps> = ({ onProjectsClick, onContactClick }) => {
         </div>
 
       </div>
+
     </section>
   );
 };

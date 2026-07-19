@@ -16,9 +16,29 @@ const FiverrIcon: React.FC<{ size?: number; className?: string }> = ({ size = 18
   </svg>
 );
 
+const LeetCodeIcon: React.FC<{ size?: number; className?: string }> = ({ size = 18, className }) => (
+  <svg 
+    viewBox="0 0 24 24" 
+    width={size} 
+    height={size} 
+    className={className}
+  >
+    {/* Orange bracket */}
+    <path 
+      d="M16.102 17.93l-2.697 2.607c-.466.451-1.211.451-1.677 0l-4.51-4.359a1.096 1.096 0 0 1 0-1.62l4.51-4.359c.466-.451 1.211-.451 1.677 0l2.697 2.606a1.18 1.18 0 0 1-.03 1.701l-1.954 1.888a.294.294 0 0 0-.03.424l1.984 1.917a1.18 1.18 0 0 1 .03 1.701z" 
+      fill="#FFA116" 
+    />
+    {/* White/CurrentColor elements */}
+    <path 
+      d="M17.098 14.225l3.226-3.118a1.21 1.21 0 0 0 0-1.748l-8.232-7.958a1.21 1.21 0 0 0-1.714 0l-8.232 7.958a1.21 1.21 0 0 0 0 1.748l3.226 3.118 4.292-4.148c.81-.784 2.112-.784 2.922 0l4.51 4.359a.302.302 0 0 0 .426 0l2.302-2.21z" 
+      fill="currentColor" 
+    />
+  </svg>
+);
+
 const Contact: React.FC = () => {
   const { email, whatsapp, location } = portfolioData.contact;
-  const { linkedin, fiverr } = portfolioData.socialLinks;
+  const { linkedin, fiverr, leetcode } = portfolioData.socialLinks;
   
   const [formData, setFormData] = useState({
     name: '',
@@ -124,6 +144,19 @@ const Contact: React.FC = () => {
                       <span className="text-xs font-bold text-[var(--fg)] group-hover/item:text-[#1dbf73] transition-colors">anamikapande437</span>
                     </div>
                   </a>
+
+                  {/* LeetCode */}
+                  {leetcode && (
+                    <a href={leetcode} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group/item">
+                      <div className="p-3.5 rounded-2xl bg-[#f89f1b]/10 text-[#f89f1b] group-hover/item:scale-110 group-hover/item:bg-[#f89f1b] group-hover/item:text-white transition-all duration-300 border border-[var(--border)]">
+                        <LeetCodeIcon size={18} />
+                      </div>
+                      <div>
+                        <span className="block text-[8px] text-[var(--text-muted)] uppercase font-black tracking-widest mb-0.5">LeetCode Profile</span>
+                        <span className="text-xs font-bold text-[var(--fg)] group-hover/item:text-[#f89f1b] transition-colors">Anamaika</span>
+                      </div>
+                    </a>
+                  )}
 
                   {/* Location */}
                   <div className="flex items-center gap-4">

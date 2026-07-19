@@ -40,6 +40,8 @@ export interface EducationItem {
   period: string;
   location: string;
   grade?: string;
+  certificate?: string;
+  details?: string[];
 }
 
 export const portfolioData = {
@@ -90,12 +92,12 @@ export const portfolioData = {
       badge: 'Featured'
     },
     {
-      title: 'Business Landing Page',
-      description: 'A highly optimized premium landing page for a modern SaaS business featuring scroll animations, responsive structures, and newsletter signups.',
-      tech: ['HTML5', 'CSS3', 'Tailwind CSS', 'JavaScript'],
-      image: '/landing-page.png',
-      github: 'https://github.com/anamika-pandey925/business-landing-page',
-      live: 'https://anamika-landing-page.netlify.app',
+      title: 'Suraksha - Women Safety',
+      description: 'A safe space for women to speak, learn, and take action. Features tools for safety, information hubs, and community resources.',
+      tech: ['React.js', 'Tailwind CSS', 'JavaScript', 'HTML5'],
+      image: '/women-safety.png',
+      github: 'https://github.com/anamika-pandey925/suraksha-womens-safety-empowerment',
+      live: 'https://suraksha-womens-safety-empowerment.vercel.app/',
       category: 'Web Design'
     }
   ] as Project[],
@@ -187,17 +189,53 @@ export const portfolioData = {
 
   education: [
     {
-      degree: 'Masters of Computer Applications (MCA)',
+      degree: 'Master of Computer Applications (MCA)',
       institution: 'Galgotias University',
       period: '2024 – Present',
-      location: 'Greater Noida, India'
+      location: 'Greater Noida, UP',
+      grade: 'CGPA 7.96',
+      certificate: '/gradecard_mca.png',
+      details: [
+        'Specializing in School of Computing Science & Engineering',
+        'Acquired expertise in Advanced Web Technologies and Software Engineering',
+        'Maintained a strong CGPA of 7.96 through rigorous academic semesters'
+      ]
     },
     {
-      degree: 'Bachelors of Computer Applications (BCA)',
-      institution: 'Bharati Vidyapeeth',
+      degree: 'Bachelor of Computer Applications (BCA)',
+      institution: 'Bharati Vidyapeeth (Deemed to be University), Pune',
       period: '2020 – 2023',
       location: 'New Delhi, India',
-      grade: '82.8%'
+      grade: 'A Grade (CGPA 8.28)',
+      certificate: '/degree_bca.jpg',
+      details: [
+        'Graduated with A Grade, securing CGPA 8.28 in September-2023',
+        'Focused on Computer Applications, Database Management, and Frontend Programming'
+      ]
+    },
+    {
+      degree: 'Senior School Certificate Examination (Class XII)',
+      institution: 'Rajkiye Pratibha Vikas Vidyalaya, Paschim Vihar A-6 (CBSE)',
+      period: '2020',
+      location: 'New Delhi, India',
+      certificate: '/cert_12th.jpg',
+      details: [
+        'Successfully completed Senior School Certificate Examination of CBSE in 2020',
+        'Studied Sanskrit Core, Hindi Elective, History, Political Science, Physical Education, Home Science, and General Studies',
+        'RPVV Paschim Vihar A-6 is a highly-selective specialized government school known for academic excellence'
+      ]
+    },
+    {
+      degree: 'Secondary School Examination (Class X)',
+      institution: 'Rajkiye Pratibha Vikas Vidyalaya, Paschim Vihar A-6 (CBSE)',
+      period: '2018',
+      location: 'New Delhi, India',
+      certificate: '/cert_10th.jpg',
+      details: [
+        'Successfully completed Secondary School Examination of CBSE in March 2018',
+        'Studied English Language & Literature, Hindi Course-A, Mathematics, Science, Social Science, and Sanskrit',
+        'Passed out in 2018 from Rajkiye Pratibha Vikas Vidyalaya Paschim Vihar A-6'
+      ]
     }
   ] as EducationItem[],
 
@@ -211,7 +249,8 @@ export const portfolioData = {
   socialLinks: {
     linkedin: 'https://www.linkedin.com/in/anamika-pandey-96598b228/',
     github: 'https://github.com/anamika-pandey925',
-    fiverr: 'https://www.fiverr.com/anamikapande437'
+    fiverr: 'https://www.fiverr.com/users/anamikapande437/manage_gigs?current_filter=active',
+    leetcode: 'https://leetcode.com/u/Anamaika/'
   },
 
   achievements: [

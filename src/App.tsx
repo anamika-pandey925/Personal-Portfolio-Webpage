@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Lenis from 'lenis';
 import CustomCursor from './components/CustomCursor';
 import GridBackground from './components/GridBackground';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import About from './components/About';
-import Services from './components/Services';
-import Projects from './components/Projects';
-import Certificates from './components/Certificates';
-import Experience from './components/Experience';
 import GithubStats from './components/GithubStats';
-import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { portfolioData } from './data/portfolioData';
+
+// Lazy-loaded components for routes
+const About = lazy(() => import('./components/About'));
+const Services = lazy(() => import('./components/Services'));
+const Projects = lazy(() => import('./components/Projects'));
+const Education = lazy(() => import('./components/Education'));
+const Certificates = lazy(() => import('./components/Certificates'));
+const Experience = lazy(() => import('./components/Experience'));
+const Contact = lazy(() => import('./components/Contact'));
 
 // Helper component to scroll to top on route change
 const ScrollToTop: React.FC<{ lenis: Lenis | null }> = ({ lenis }) => {
@@ -112,31 +115,38 @@ const AppContent: React.FC = () => {
 
       {/* Multi-Page Route Selector */}
       <main className="relative z-10 w-full min-h-[75vh]">
-        <Routes>
-          <Route path="/" element={
-            <>
-              <Hero 
-                onProjectsClick={() => navigate('/projects')} 
-                onContactClick={() => navigate('/contact')} 
-              />
-              <GithubStats />
-            </>
-          } />
-          
-          <Route path="/about" element={
-            <>
-              <About />
-              <Experience />
-              <Certificates />
-            </>
-          } />
+        <Suspense fallback={
+          <div className="flex items-center justify-center min-h-[50vh]">
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#A855F7]"></div>
+          </div>
+        }>
+          <Routes>
+            <Route path="/" element={
+              <>
+                <Hero 
+                  onProjectsClick={() => navigate('/projects')} 
+                  onContactClick={() => navigate('/contact')} 
+                />
+                <GithubStats />
+              </>
+            } />
+            
+            <Route path="/about" element={
+              <>
+                <About />
+                <Education />
+                <Experience />
+                <Certificates />
+              </>
+            } />
 
-          <Route path="/services" element={<Services />} />
-          
-          <Route path="/projects" element={<Projects />} />
-          
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+            <Route path="/services" element={<Services />} />
+            
+            <Route path="/projects" element={<Projects />} />
+            
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </Suspense>
       </main>
 
       {/* Footer */}
