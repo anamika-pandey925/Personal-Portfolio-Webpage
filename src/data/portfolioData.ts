@@ -99,6 +99,16 @@ export const portfolioData = {
       github: 'https://github.com/anamika-pandey925/suraksha-womens-safety-empowerment',
       live: 'https://suraksha-womens-safety-empowerment.vercel.app/',
       category: 'Web Design'
+    },
+    {
+      title: 'MithilaKitchen',
+      description: 'A premium, modern food ordering and delivery mobile application built using React Native, Expo Router, TypeScript, and Firebase. Features secure authentication, interactive restaurant and dish search, cart management, address labeling, real-time order tracking, push notifications, and Razorpay secure payment gateway integration, alongside a role-based Admin panel.',
+      tech: ['React Native', 'Expo', 'TypeScript', 'Firebase', 'Razorpay'],
+      image: '/mithila-home.jpg',
+      github: 'https://github.com/anamika-pandey925/MithilaKitchen-mobile-app',
+      live: 'https://github.com/anamika-pandey925/MithilaKitchen-mobile-app',
+      category: 'Mobile App',
+      badge: 'Recent Project'
     }
   ] as Project[],
 
