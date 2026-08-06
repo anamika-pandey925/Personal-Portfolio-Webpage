@@ -108,7 +108,9 @@ export const portfolioData = {
       github: 'https://github.com/anamika-pandey925/MithilaKitchen-mobile-app',
       live: 'https://github.com/anamika-pandey925/MithilaKitchen-mobile-app',
       category: 'Mobile App',
-      badge: 'Recent Project'
+      badge: 'Client Project',
+      rating: 5,
+      clientReview: 'Anamika built an exceptionally smooth and reliable food ordering app. The real-time tracking and Razorpay payment gateway integration work flawlessly. Incredibly professional work! - Mr. Shivam Jha'
     }
   ] as Project[],
 
