@@ -92,6 +92,103 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
           }).join('')
         : '';
 
+      const categorizeSkills = (skillsArray: { name: string; level: number }[]) => {
+        const categories = {
+          Languages: [] as string[],
+          Frameworks: [] as string[],
+          Tools: [] as string[],
+          Design: [] as string[]
+        };
+
+        skillsArray.forEach(s => {
+          const nameLower = s.name.toLowerCase();
+          if (nameLower.includes('javascript') || nameLower.includes('typescript') || nameLower.includes('html') || nameLower.includes('css') || nameLower.includes('python') || nameLower.includes('java') || nameLower.includes('c++') || nameLower.includes('sql')) {
+            categories.Languages.push(s.name);
+          } else if (nameLower.includes('react') || nameLower.includes('expo') || nameLower.includes('tailwind') || nameLower.includes('framer') || nameLower.includes('vite') || nameLower.includes('next.js') || nameLower.includes('fiber') || nameLower.includes('three.js')) {
+            categories.Frameworks.push(s.name);
+          } else if (nameLower.includes('figma') || nameLower.includes('git') || nameLower.includes('github') || nameLower.includes('firebase') || nameLower.includes('razorpay') || nameLower.includes('vercel') || nameLower.includes('netlify')) {
+            categories.Tools.push(s.name);
+          } else {
+            categories.Design.push(s.name);
+          }
+        });
+
+        return categories;
+      };
+
+      const skillCats = categorizeSkills(skills);
+      const cvSkillsHtml = `
+        <tr class="align-top">
+          <td class="w-36 font-bold text-slate-800 pb-2">Languages</td>
+          <td class="text-slate-600 font-medium pb-2">${skillCats.Languages.join(', ')}</td>
+        </tr>
+        <tr class="align-top">
+          <td class="w-36 font-bold text-slate-800 pb-2">Frameworks & Libraries</td>
+          <td class="text-slate-600 font-medium pb-2">${skillCats.Frameworks.join(', ')}</td>
+        </tr>
+        <tr class="align-top">
+          <td class="w-36 font-bold text-slate-800 pb-2">Tools & Platforms</td>
+          <td class="text-slate-600 font-medium pb-2">${skillCats.Tools.join(', ')}</td>
+        </tr>
+        <tr class="align-top">
+          <td class="w-36 font-bold text-slate-800 pb-2">Design & Concepts</td>
+          <td class="text-slate-600 font-medium pb-2">${skillCats.Design.join(', ')}</td>
+        </tr>
+      `;
+
+      const cvExperienceHtml = internships
+        ? internships.map((job, idx) => {
+            const bullets = job.description
+              .split('.')
+              .map(b => b.trim())
+              .filter(Boolean);
+            
+            return `
+              <div class="${idx > 0 ? 'mt-4' : ''}">
+                <div class="flex justify-between items-baseline mb-0.5">
+                  <h4 class="font-extrabold text-[#0f172a] text-[11px] uppercase tracking-tight">
+                    ${job.role}
+                  </h4>
+                  <span class="text-[9px] font-bold text-slate-500">${job.period}</span>
+                </div>
+                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1.5">
+                  ${job.company} · ${job.location || 'Remote'}
+                </div>
+                <ul class="list-disc pl-4 space-y-1 text-[9.5px] text-slate-600 font-semibold leading-relaxed">
+                  ${bullets.map(b => `<li>${b}.</li>`).join('')}
+                </ul>
+              </div>
+            `;
+          }).join('')
+        : '';
+
+      const cvProjectsHtml = projects
+        ? projects.map((project, idx) => {
+            return `
+              <div class="${idx > 0 ? 'mt-4' : ''}">
+                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">${project.title}</h4>
+                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
+                  Tech Stack: ${project.tech.join(', ')}
+                </div>
+                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
+                  ${project.description}
+                </p>
+              </div>
+            `;
+          }).join('')
+        : '';
+
+      const cvCertificationsHtml = certificates
+        ? certificates.map((cert) => {
+            return `
+              <tr class="align-top">
+                <td class="font-bold text-slate-800 pb-2">${cert.title}</td>
+                <td class="text-right text-slate-500 font-semibold pb-2">${cert.organization} | ${cert.date}</td>
+              </tr>
+            `;
+          }).join('')
+        : '';
+
       resumeContainer.innerHTML = `
         <div class="px-2 py-2" style="font-family: 'Inter', sans-serif;">
           <!-- Name & Title -->
@@ -110,7 +207,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
               Professional Summary
             </h3>
             <p class="text-[10px] leading-relaxed text-slate-600 font-medium">
-              MCA candidate at Galgotias University with a BCA (82.8%) and hands-on experience building responsive, high-performance web applications using React.js, JavaScript, HTML5, CSS3, and Tailwind CSS. Proven ability to deliver production-ready UI components, integrate REST APIs, and create accessible, cross-browser-compatible interfaces. Seeking a frontend development role where clean architecture and precise UI execution drive measurable user impact.
+              ${about}
             </p>
           </section>
 
@@ -121,26 +218,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
             </h3>
             <table class="w-full text-[10px] border-collapse text-left">
               <tbody>
-                <tr class="align-top">
-                  <td class="w-36 font-bold text-slate-800 pb-2">Languages</td>
-                  <td class="text-slate-600 font-medium pb-2">JavaScript (ES6+), HTML5, CSS3</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="w-36 font-bold text-slate-800 pb-2">Frameworks & Libraries</td>
-                  <td class="text-slate-600 font-medium pb-2">React.js, Tailwind CSS, Framer Motion</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="w-36 font-bold text-slate-800 pb-2">UI / UX Design</td>
-                  <td class="text-slate-600 font-medium pb-2">Figma, Responsive Design, UI/UX Principles</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="w-36 font-bold text-slate-800 pb-2">Tools & Platforms</td>
-                  <td class="text-slate-600 font-medium pb-2">Vite, Firebase, Git, GitHub</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="w-36 font-bold text-slate-800 pb-2">Concepts</td>
-                  <td class="text-slate-600 font-medium pb-2">REST API Integration, Component-Based Architecture, Cross-Browser Compatibility, Performance Optimization, Accessibility</td>
-                </tr>
+                ${cvSkillsHtml}
               </tbody>
             </table>
           </section>
@@ -151,75 +229,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
               Experience
             </h3>
             <div class="space-y-4">
-              <!-- Job 1 -->
-              <div>
-                <div class="flex justify-between items-baseline mb-0.5">
-                  <h4 class="font-extrabold text-[#0f172a] text-[11px] uppercase tracking-tight">
-                    Web Development Intern (Frontend)
-                  </h4>
-                  <span class="text-[9px] font-bold text-slate-500">Sep 2025 – Oct 2025</span>
-                </div>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1.5">
-                  Labmentix Pvt. Ltd. · Remote
-                </div>
-                <ul class="list-disc pl-4 space-y-1 text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  <li>Developed responsive, dynamic React.js components for core web portals, improving UI modularity and reusability.</li>
-                  <li>Collaborated on REST API integration and state management workflows, ensuring seamless data flow across components.</li>
-                  <li>Enhanced UI layouts with Tailwind CSS, delivering pixel-accurate designs consistent with Figma mockups.</li>
-                </ul>
-              </div>
-
-              <!-- Job 2 -->
-              <div>
-                <div class="flex justify-between items-baseline mb-0.5">
-                  <h4 class="font-extrabold text-[#0f172a] text-[11px] uppercase tracking-tight">
-                    Client Website Developer
-                  </h4>
-                  <span class="text-[9px] font-bold text-slate-500">Aug 2025 – Sep 2025</span>
-                </div>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1.5">
-                  Step Up Dance Academy · Delhi, India
-                </div>
-                <ul class="list-disc pl-4 space-y-1 text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  <li>Designed and launched a full-featured interactive web portal for a dance academy client.</li>
-                  <li>Implemented branch directories, wedding choreography highlights, online booking requests, and dynamic trainer schedule pages.</li>
-                  <li>Delivered a mobile-responsive interface ensuring consistent experience across all screen sizes.</li>
-                </ul>
-              </div>
-
-              <!-- Job 3 -->
-              <div>
-                <div class="flex justify-between items-baseline mb-0.5">
-                  <h4 class="font-extrabold text-[#0f172a] text-[11px] uppercase tracking-tight">
-                    Frontend Development Intern
-                  </h4>
-                  <span class="text-[9px] font-bold text-slate-500">Feb 2025 – Mar 2025</span>
-                </div>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1.5">
-                  Codtech IT Solutions · Remote
-                </div>
-                <ul class="list-disc pl-4 space-y-1 text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  <li>Completed a structured frontend internship focused on React.js component architecture and reusable UI patterns.</li>
-                  <li>Built custom form components and implemented responsive CSS layouts, adhering to modern web standards.</li>
-                </ul>
-              </div>
-
-              <!-- Job 4 -->
-              <div>
-                <div class="flex justify-between items-baseline mb-0.5">
-                  <h4 class="font-extrabold text-[#0f172a] text-[11px] uppercase tracking-tight">
-                    Freelance Frontend Developer
-                  </h4>
-                  <span class="text-[9px] font-bold text-slate-500">Sep 2023 – Present</span>
-                </div>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1.5">
-                  Self-Employed · Delhi, India
-                </div>
-                <ul class="list-disc pl-4 space-y-1 text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  <li>Designed and delivered lightweight, responsive websites for multiple clients across various industries.</li>
-                  <li>Implemented clean styling and smooth CSS transitions to enhance user engagement and visual polish.</li>
-                </ul>
-              </div>
+              ${cvExperienceHtml}
             </div>
           </section>
 
@@ -229,60 +239,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
               Projects
             </h3>
             <div class="space-y-4">
-              <!-- Project 1 -->
-              <div>
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">Step Up Dance Academy – Client Portal</h4>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
-                  Tech Stack: React.js, Firebase, Tailwind CSS, HTML5, JavaScript
-                </div>
-                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  Full-featured client website for a multi-branch dance academy. Features include branch directories, event listings, student reviews, booking requests, and customized trainer schedules. Deployed with Firebase backend.
-                </p>
-              </div>
-
-              <!-- Project 2 -->
-              <div>
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">Portfolio Website</h4>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
-                  Tech Stack: React.js, Vite, Tailwind CSS, Framer Motion
-                </div>
-                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  Personal developer portfolio with dark/light theme toggle, animated page transitions using Framer Motion, and optimized performance via Vite build tooling.
-                </p>
-              </div>
-
-              <!-- Project 3 -->
-              <div>
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">Interactive Quiz Application</h4>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
-                  Tech Stack: JavaScript, HTML5, CSS3
-                </div>
-                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  Dynamic online quiz platform featuring real-time timer controls, progress tracking indicators, and detailed performance score sheets. Built with vanilla JavaScript.
-                </p>
-              </div>
-
-              <!-- Project 4 -->
-              <div>
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">E-Learning Platform UI</h4>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
-                  Tech Stack: HTML5, CSS3, JavaScript
-                </div>
-                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  Responsive UI for an online learning portal featuring interactive course catalogs, responsive grid layouts, and sidebar navigation components.
-                </p>
-              </div>
-
-              <!-- Project 5 -->
-              <div>
-                <h4 class="font-extrabold text-[#0f172a] text-[10.5px]">Suraksha – Women Safety Web App</h4>
-                <div class="text-[9px] font-black text-[#0891b2] uppercase tracking-widest mb-1">
-                  Tech Stack: React.js, Tailwind CSS, JavaScript, HTML5
-                </div>
-                <p class="text-[9.5px] text-slate-600 font-semibold leading-relaxed">
-                  Community-focused web platform providing safety tools, information hubs, and resource links to support women. Designed with accessibility and ease of use as primary goals.
-                </p>
-              </div>
+              ${cvProjectsHtml}
             </div>
           </section>
 
@@ -293,26 +250,7 @@ export const generateResumePDF = async (templateId: string = 'modern'): Promise<
             </h3>
             <table class="w-full text-[9.5px] text-left border-collapse">
               <tbody>
-                <tr class="align-top">
-                  <td class="font-bold text-slate-800 pb-2">Frontend Web Development Internship Certificate</td>
-                  <td class="text-right text-slate-500 font-semibold pb-2">Codtech IT Solutions | Feb 2025</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="font-bold text-slate-800 pb-2">Web Development Internship Certificate</td>
-                  <td class="text-right text-slate-500 font-semibold pb-2">Labmentix Pvt. Ltd. | Sep 2025</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="font-bold text-slate-800 pb-2">Hackathon Excellence Certificate</td>
-                  <td class="text-right text-slate-500 font-semibold pb-2">Codtech IT Solutions | Jan 2025</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="font-bold text-slate-800 pb-2">SQL Joins Micro-Certification</td>
-                  <td class="text-right text-slate-500 font-semibold pb-2">Cuvette Tech | Oct 2025</td>
-                </tr>
-                <tr class="align-top">
-                  <td class="font-bold text-slate-800 pb-2">Project Training Completion Certificate</td>
-                  <td class="text-right text-slate-500 font-semibold pb-2">Shree Laxmi Industries | Aug 2025</td>
-                </tr>
+                ${cvCertificationsHtml}
               </tbody>
             </table>
           </section>
