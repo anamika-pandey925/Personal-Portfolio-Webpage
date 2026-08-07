@@ -66,7 +66,7 @@ export const portfolioData = {
       tech: ['HTML5', 'CSS3', 'JavaScript'],
       image: '/elearning-platform.png',
       github: 'https://github.com/anamika-pandey925/E-LEARNING-PLATFORM-UI',
-      live: 'https://anamika-pandey-portfolio.netlify.app',
+      live: 'https://e-learning-platform-ui-omega.vercel.app/',
       category: 'UI/UX Design'
     },
     {
