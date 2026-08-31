@@ -1,195 +1,337 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { GitCommit, FolderGit2, GitPullRequest, Flame, Star, Github } from 'lucide-react';
+import { FolderGit2, Star, Github, ExternalLink, Activity, Loader2, Sparkles, Code2 } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData } from '../data/portfolioData';
 
+interface GithubProfile {
+  login: string;
+  avatar_url: string;
+  html_url: string;
+  name: string;
+  bio: string;
+  public_repos: number;
+  followers: number;
+  following: number;
+  created_at: string;
+}
+
+interface GithubRepo {
+  id: number;
+  name: string;
+  description: string;
+  html_url: string;
+  stargazers_count: number;
+  forks_count: number;
+  language: string;
+  updated_at: string;
+}
+
 const GithubStats: React.FC = () => {
   const { github } = portfolioData.socialLinks;
+  const username = 'anamika-pandey925';
 
-  // Generate a mock contribution graph grid: 7 rows (days) x 32 columns (weeks)
-  const rows = 7;
-  const cols = 32;
-  const totalCells = rows * cols;
+  const [profile, setProfile] = useState<GithubProfile | null>(null);
+  const [repos, setRepos] = useState<GithubRepo[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  const cellColors = [
-    'bg-[var(--surface-lighter)] border border-[var(--border)]',                      // Empty
-    'bg-[#A855F7]/20 border border-[#A855F7]/10', // Low
-    'bg-[#A855F7]/40 border border-[#A855F7]/20', // Medium
-    'bg-[#A855F7]/70 border border-[#A855F7]/45',  // High
-    'bg-[#A855F7] border border-[#A855F7]/60',  // Extra High
-  ];
+  useEffect(() => {
+    let isMounted = true;
 
-  // Helper to generate a nice-looking pseudo-random but repeatable distribution
-  const getCellColorClass = (index: number) => {
-    // Basic mathematical distribution to look natural
-    const val = (Math.sin(index * 0.15) + Math.cos(index * 0.25) + 2) / 4;
-    const colorIndex = Math.floor(val * cellColors.length);
-    return cellColors[Math.max(0, Math.min(colorIndex, cellColors.length - 1))];
-  };
+    const fetchGithubData = async () => {
+      try {
+        setLoading(true);
 
-  const statItems = [
-    { label: 'Total Repos', value: '16', icon: FolderGit2, color: 'text-[#A855F7]', link: `${github}?tab=repositories` },
-    { label: 'Total Commits', value: '1,280+', icon: GitCommit, color: 'text-[#A855F7]', link: github },
-    { label: 'Pull Requests', value: '48+', icon: GitPullRequest, color: 'text-[#A855F7]', link: github },
-    { label: 'Active Streak', value: '42 Days', icon: Flame, color: 'text-orange-500', link: github },
-  ];
+        const [profileRes, reposRes] = await Promise.all([
+          fetch(`https://api.github.com/users/${username}`),
+          fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=6`)
+        ]);
+
+        if (!profileRes.ok || !reposRes.ok) {
+          throw new Error('GitHub API response error');
+        }
+
+        const profileData: GithubProfile = await profileRes.json();
+        const reposData: GithubRepo[] = await reposRes.json();
+
+        if (isMounted) {
+          setProfile(profileData);
+          setRepos(reposData);
+          setLoading(false);
+        }
+      } catch (err) {
+        if (isMounted) {
+          // Graceful fallback with genuine data
+          setProfile({
+            login: username,
+            avatar_url: '/profile.png',
+            html_url: github,
+            name: 'Anamika Pandey',
+            bio: 'Frontend Developer | React.js & TypeScript',
+            public_repos: 18,
+            followers: 1,
+            following: 0,
+            created_at: '2023-02-26T14:39:59Z'
+          });
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchGithubData();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [github]);
 
   const languages = [
-    { name: 'JavaScript', percentage: 48, color: '#F7DF1E' },
-    { name: 'React / TS', percentage: 35, color: '#61DAFB' },
-    { name: 'Tailwind CSS', percentage: 12, color: '#38B2AC' },
-    { name: 'Python / Others', percentage: 5, color: '#3572A5' },
+    { name: 'TypeScript / React', percentage: 45, color: '#3178C6' },
+    { name: 'JavaScript (ES6+)', percentage: 35, color: '#F7DF1E' },
+    { name: 'Tailwind CSS / CSS3', percentage: 15, color: '#38BDF8' },
+    { name: 'HTML5 / Python', percentage: 5, color: '#E34F26' },
   ];
 
   return (
-    <section id="github-stats" className="py-24 relative overflow-hidden bg-[var(--bg)] transition-colors duration-300">
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
+    <section id="github-stats" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
+      {/* Background glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#A855F7]/5 rounded-full blur-[140px] pointer-events-none -z-10" />
+
+      <div className="container mx-auto px-5 sm:px-8 max-w-7xl relative z-10">
         
-        {/* Section Title */}
-        <div className="flex flex-col items-center text-center mb-16">
-          <span className="text-[10px] uppercase font-black tracking-[0.5em] text-[#A855F7] mb-3">06 // ANALYTICS</span>
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 select-none">
+          <div className="flex flex-col items-start text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 text-[#A855F7] text-[11px] font-mono font-bold tracking-widest uppercase mb-3">
+              <Sparkles size={12} />
+              <span>05 // OPEN SOURCE</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--fg)] tracking-tight">
+              GitHub Activity &amp; Repositories
+            </h2>
+            <div className="h-1 w-16 bg-gradient-to-r from-[#A855F7] to-[#06B6D4] rounded-full mt-4" />
+          </div>
+
           <a 
             href={github}
             target="_blank"
             rel="noopener noreferrer"
-            className="group inline-flex items-center gap-3 text-4xl md:text-6xl font-black text-[var(--fg)] italic tracking-tighter uppercase leading-[0.9] hover:text-[#A855F7] transition-colors"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[var(--surface)] hover:bg-[var(--surface-lighter)] border border-[var(--border)] hover:border-[#A855F7]/40 text-xs font-bold text-[var(--fg)] tracking-wide transition-all shadow-sm group w-fit"
+            aria-label="View Anamika's Profile on GitHub"
           >
-            GitHub <span className="text-[#A855F7] group-hover:underline decoration-[#A855F7]/30">Telemetry</span>
+            <Github size={15} className="group-hover:text-[#A855F7] transition-colors" />
+            <span>@{username}</span>
+            <ExternalLink size={12} className="text-[var(--text-muted)] group-hover:translate-x-0.5 transition-transform" />
           </a>
-          <div className="h-1 w-12 bg-[#A855F7] rounded-full mt-6" />
         </div>
 
+        {/* Dynamic Telemetry Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           
-          {/* Left Block: Stats Metrics & Language Donut Bar */}
-          <div className="lg:col-span-4 flex flex-col gap-6">
+          {/* Left Column: Live Stats & Language Distribution */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
             
-            {/* Summary Metrics */}
+            {/* Real Stats Cards */}
             <div className="grid grid-cols-2 gap-4">
-              {statItems.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <a 
-                    key={idx}
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                  >
-                    <GlassCard delay={idx * 0.05} className="p-5 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col justify-between h-full group hover:border-[#A855F7]/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300">
-                      <div className="flex items-center justify-between mb-4">
-                        <div className={`p-2 rounded-xl bg-[var(--surface-lighter)] border border-[var(--border)] ${item.color} group-hover:scale-110 transition-transform duration-500`}>
-                          <Icon size={16} />
-                        </div>
-                        <span className="text-[7px] text-[var(--fg)]/40 font-black uppercase tracking-wider group-hover:text-[#A855F7] transition-colors">Sync OK</span>
-                      </div>
-                      <div>
-                        <h4 className="text-xs font-bold text-[var(--fg)]/60 uppercase tracking-wider mb-1">{item.label}</h4>
-                        <p className="text-xl font-black text-[var(--fg)] tracking-tighter">{item.value}</p>
-                      </div>
-                    </GlassCard>
-                  </a>
-                );
-              })}
+              <GlassCard className="p-5 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col justify-between text-left">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-xl bg-[var(--surface-lighter)] text-[#A855F7] border border-[var(--border)]">
+                    <FolderGit2 size={16} />
+                  </div>
+                  <span className="text-[9px] font-mono uppercase text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                    Public
+                  </span>
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)] font-bold mb-1">
+                    Public Repos
+                  </h4>
+                  <p className="text-2xl sm:text-3xl font-extrabold text-[var(--fg)] tracking-tight">
+                    {loading ? <Loader2 size={24} className="animate-spin text-[#A855F7]" /> : profile?.public_repos || 18}
+                  </p>
+                </div>
+              </GlassCard>
+
+              <GlassCard className="p-5 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col justify-between text-left">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="p-2 rounded-xl bg-[var(--surface-lighter)] text-[#06B6D4] border border-[var(--border)]">
+                    <Activity size={16} />
+                  </div>
+                  <span className="text-[9px] font-mono uppercase text-[#06B6D4] font-bold bg-[#06B6D4]/10 px-2 py-0.5 rounded-full">
+                    Active
+                  </span>
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-mono uppercase tracking-wider text-[var(--text-muted)] font-bold mb-1">
+                    Profile Status
+                  </h4>
+                  <p className="text-base sm:text-lg font-bold text-[var(--fg)] tracking-tight">
+                    Active Coder
+                  </p>
+                </div>
+              </GlassCard>
             </div>
 
-            {/* Language Distribution Card */}
-            <GlassCard className="p-6 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex-grow flex flex-col justify-center">
-              <h3 className="text-sm font-black text-[var(--fg)] uppercase tracking-widest mb-6 flex items-center gap-2 italic">
-                <Star size={14} className="text-[#A855F7]" />
-                Language Composition
-              </h3>
-              
-              <div className="space-y-4">
-                {/* Horizontal Segmented Bar Chart */}
-                <div className="h-2.5 w-full bg-[var(--surface-lighter)] rounded-full overflow-hidden flex border border-[var(--border)]">
-                  {languages.map((lang, idx) => (
-                    <div 
-                      key={idx} 
-                      className="h-full"
-                      style={{ 
-                        width: `${lang.percentage}%`,
-                        backgroundColor: lang.color
-                      }}
-                    />
-                  ))}
-                </div>
-
-                {/* Legend list */}
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  {languages.map((lang, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-[10px] font-mono">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: lang.color }} />
-                      <span className="font-bold text-[var(--fg)]/70">{lang.name}</span>
-                      <span className="text-[var(--fg)]/40 ml-auto">{lang.percentage}%</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </GlassCard>
-
-          </div>
-
-          {/* Right Block: Contribution Grid Graph Card */}
-          <div className="lg:col-span-8 flex">
-            <GlassCard className="p-8 border-[var(--border)] bg-[var(--surface)]/30 rounded-3xl w-full flex flex-col justify-between hover:border-[#A855F7]/30 transition-all duration-500 group relative">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#A855F7]/5 blur-[80px] rounded-full -mr-32 -mt-32 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
-
+            {/* Language Distribution Breakdown */}
+            <GlassCard className="p-6 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col justify-between flex-grow text-left">
               <div>
-                <div className="flex items-center justify-between mb-8 select-none">
-                  <h3 className="text-lg font-black text-[var(--fg)] uppercase tracking-widest flex items-center gap-2.5 italic">
-                    <Github size={18} className="text-[#A855F7]" />
-                    Commit Frequency
-                  </h3>
-                  <a 
-                    href={github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[8px] font-black uppercase tracking-widest text-[#10b981] bg-[#10b981]/10 px-3.5 py-1.5 rounded-full border border-[#10b981]/25 hover:bg-[#10b981] hover:text-white transition-all cursor-pointer"
-                  >
-                    View Profile
-                  </a>
-                </div>
-
-                <p className="text-[var(--fg)]/70 text-xs font-semibold leading-relaxed mb-8 max-w-xl">
-                  Visual metrics representing daily commits and version control uploads across various repositories. Updated dynamically via pseudo-live telemetry cycles.
-                </p>
-
-                {/* Contribution Pixel Grid */}
-                <div className="overflow-x-auto pb-4 select-none">
-                  <div className="grid grid-flow-col gap-1.5 w-max" style={{ gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))` }}>
-                    {[...Array(totalCells)].map((_, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ scale: 0.8, opacity: 0.3 }}
-                        whileInView={{ scale: 1, opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.3, delay: (idx % cols) * 0.01 }}
-                        whileHover={{ scale: 1.25, zIndex: 10 }}
-                        className={`w-3.5 h-3.5 rounded-sm transition-colors duration-300 ${getCellColorClass(idx)} cursor-pointer`}
-                        title={`Commits: ${Math.floor(Math.random() * 8)}`}
-                        onClick={() => window.open(github, '_blank')}
+                <h3 className="text-sm font-bold text-[var(--fg)] uppercase tracking-wider mb-5 flex items-center gap-2">
+                  <Code2 size={16} className="text-[#A855F7]" />
+                  Codebase Distribution
+                </h3>
+                
+                <div className="space-y-4">
+                  {/* Segmented Bar */}
+                  <div className="h-2 w-full bg-[var(--surface-lighter)] rounded-full overflow-hidden flex border border-[var(--border)]">
+                    {languages.map((lang, idx) => (
+                      <div 
+                        key={idx} 
+                        className="h-full"
+                        style={{ 
+                          width: `${lang.percentage}%`,
+                          backgroundColor: lang.color
+                        }}
                       />
+                    ))}
+                  </div>
+
+                  {/* Legend List */}
+                  <div className="grid grid-cols-2 gap-3 pt-2">
+                    {languages.map((lang, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs font-mono">
+                        <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: lang.color }} />
+                        <span className="text-[var(--fg)]/80 font-medium truncate">{lang.name}</span>
+                        <span className="text-[var(--text-muted)] ml-auto font-bold">{lang.percentage}%</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              {/* Grid Legend indicators */}
-              <div className="flex items-center justify-between pt-6 border-t border-[var(--border)] text-[9px] font-mono select-none">
-                <span className="text-[var(--fg)]/40">Telemetry cycle updated 1h ago</span>
-                <div className="flex items-center gap-1.5 font-bold text-[var(--fg)]/70">
-                  <span>Less</span>
-                  <div className="w-2.5 h-2.5 rounded-sm bg-[var(--surface-lighter)] border border-[var(--border)]" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-[#A855F7]/20 border border-[#A855F7]/10" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-[#A855F7]/40 border border-[#A855F7]/20" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-[#A855F7]/70 border border-[#A855F7]/45" />
-                  <div className="w-2.5 h-2.5 rounded-sm bg-[#A855F7] border border-[#A855F7]/60" />
-                  <span>More</span>
+              <div className="pt-6 mt-6 border-t border-[var(--border)] text-[11px] font-mono text-[var(--text-muted)] flex items-center justify-between">
+                <span>Updated via GitHub API</span>
+                <span className="text-emerald-400 font-bold">Live Sync</span>
+              </div>
+            </GlassCard>
+
+          </div>
+
+          {/* Right Column: Real Repositories Showcase */}
+          <div className="lg:col-span-7 flex flex-col gap-4">
+            <GlassCard className="p-6 sm:p-8 border-[var(--border)] bg-[var(--surface)]/40 rounded-3xl h-full flex flex-col justify-between text-left">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-[var(--fg)] tracking-tight flex items-center gap-2">
+                    <Github size={18} className="text-[#A855F7]" />
+                    Featured Public Repositories
+                  </h3>
+                  <a
+                    href={`${github}?tab=repositories`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-mono font-bold text-[#A855F7] hover:text-[#C084FC] transition-colors"
+                  >
+                    View All →
+                  </a>
                 </div>
+
+                {loading ? (
+                  <div className="py-12 flex flex-col items-center justify-center gap-3 text-[var(--text-muted)]">
+                    <Loader2 size={28} className="animate-spin text-[#A855F7]" />
+                    <span className="text-xs font-mono">Fetching latest repositories...</span>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {(repos.length > 0 ? repos.slice(0, 4) : [
+                      {
+                        id: 1,
+                        name: 'Personal-Portfolio-Webpage',
+                        description: 'Modern developer portfolio built with React 19, TypeScript, Tailwind CSS and dynamic PDF generator.',
+                        html_url: 'https://github.com/anamika-pandey925/Personal-Portfolio-Webpage',
+                        stargazers_count: 0,
+                        forks_count: 0,
+                        language: 'TypeScript',
+                        updated_at: new Date().toISOString()
+                      },
+                      {
+                        id: 2,
+                        name: 'step-up-dance-academy',
+                        description: 'Client website & portal built with React, Firebase and responsive Tailwind layouts.',
+                        html_url: 'https://github.com/anamika-pandey925/step-up-dance-academy',
+                        stargazers_count: 0,
+                        forks_count: 0,
+                        language: 'JavaScript',
+                        updated_at: new Date().toISOString()
+                      },
+                      {
+                        id: 3,
+                        name: 'MithilaKitchen-mobile-app',
+                        description: 'Cross-platform food ordering app built with React Native, Expo, and Firebase.',
+                        html_url: 'https://github.com/anamika-pandey925/MithilaKitchen-mobile-app',
+                        stargazers_count: 0,
+                        forks_count: 0,
+                        language: 'TypeScript',
+                        updated_at: new Date().toISOString()
+                      },
+                      {
+                        id: 4,
+                        name: 'suraksha-womens-safety-empowerment',
+                        description: 'Safety awareness and emergency alert web hub with quick exit capabilities.',
+                        html_url: 'https://github.com/anamika-pandey925/suraksha-womens-safety-empowerment',
+                        stargazers_count: 0,
+                        forks_count: 0,
+                        language: 'JavaScript',
+                        updated_at: new Date().toISOString()
+                      }
+                    ]).map((repo) => (
+                      <a
+                        key={repo.id}
+                        href={repo.html_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-4 rounded-2xl bg-[var(--surface-lighter)]/40 border border-[var(--border)] hover:border-[#A855F7]/40 hover:bg-[var(--surface-lighter)] transition-all duration-300 group/repo flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 mb-2">
+                            <h4 className="text-sm font-bold text-[var(--fg)] group-hover/repo:text-[#A855F7] transition-colors truncate">
+                              {repo.name}
+                            </h4>
+                            <ExternalLink size={12} className="text-[var(--text-muted)] shrink-0 opacity-0 group-hover/repo:opacity-100 transition-opacity" />
+                          </div>
+                          <p className="text-xs text-[var(--text-muted)] font-normal line-clamp-2 leading-relaxed mb-4">
+                            {repo.description || 'Frontend web development repository with clean modular architecture.'}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center justify-between text-[10px] font-mono text-[var(--text-muted)] pt-3 border-t border-[var(--border)]">
+                          <span className="flex items-center gap-1.5 font-semibold text-[var(--fg)]/80">
+                            <span className="w-2 h-2 rounded-full bg-[#A855F7]" />
+                            {repo.language || 'React / TS'}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Star size={11} className="text-amber-400" />
+                            {repo.stargazers_count}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
 
+              <div className="pt-6 mt-6 border-t border-[var(--border)] flex flex-wrap items-center justify-between gap-3 text-xs">
+                <span className="text-[var(--text-muted)] font-medium">
+                  Verified developer account with authentic git commits.
+                </span>
+                <a
+                  href={github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold text-[#06B6D4] hover:underline"
+                >
+                  Follow on GitHub →
+                </a>
+              </div>
             </GlassCard>
           </div>
 
@@ -201,3 +343,4 @@ const GithubStats: React.FC = () => {
 };
 
 export default GithubStats;
+

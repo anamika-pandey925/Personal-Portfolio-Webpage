@@ -1,75 +1,108 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, MapPin, Briefcase, GraduationCap, Award, Compass } from 'lucide-react';
+import { Calendar, MapPin, Briefcase, Sparkles, CheckCircle2, ChevronRight, Laptop, Award } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData, ExperienceItem } from '../data/portfolioData';
 
 const ExperienceNode: React.FC<{ item: ExperienceItem; index: number }> = ({ item, index }) => {
-  const isInternship = item.type === 'Internship';
-  const isAcademic = item.type === 'Academic';
-  
   return (
     <motion.div
-      initial={{ opacity: 0, x: -30 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.75, delay: index * 0.1, ease: [0.25, 1, 0.5, 1] }}
-      className="relative pl-12 md:pl-20 pb-16 last:pb-0 group"
+      transition={{ duration: 0.7, delay: index * 0.12 }}
+      className="relative pl-8 sm:pl-16 pb-14 last:pb-0 group text-left"
     >
-      {/* Connector vertical line */}
-      <div className="absolute left-[18px] md:left-[30px] top-4 bottom-0 w-[2.5px] bg-gradient-to-b from-[#A855F7]/40 via-[var(--border)] to-transparent group-last:bg-transparent" />
+      {/* Timeline Line */}
+      <div className="absolute left-[15px] sm:left-[27px] top-6 bottom-0 w-[2px] bg-gradient-to-b from-[#A855F7]/40 via-[var(--border)] to-transparent group-last:bg-transparent" />
       
-      {/* Timeline Circle Node */}
-      <div className={`absolute left-0 md:left-2 top-0.5 w-10 h-10 md:w-12 md:h-12 rounded-2xl border flex items-center justify-center transition-all duration-700 z-10 ${
+      {/* Timeline Glowing Node */}
+      <div className={`absolute left-0 sm:left-3 top-1 w-8 h-8 sm:w-10 sm:h-10 rounded-2xl border flex items-center justify-center transition-all duration-500 z-10 ${
         item.current
-          ? 'bg-gradient-to-br from-[#A855F7] to-indigo-500 border-[#A855F7] shadow-[0_0_20px_rgba(168,85,247,0.4)] text-white'
-          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--fg)]/40 group-hover:border-[#A855F7]/40 group-hover:text-[#A855F7]'
+          ? 'bg-gradient-to-br from-[#A855F7] to-[#7C3AED] border-[#A855F7] text-white shadow-lg shadow-[#A855F7]/30 scale-105'
+          : 'bg-[var(--surface)] border-[var(--border)] text-[var(--text-muted)] group-hover:border-[#A855F7]/50 group-hover:text-[#A855F7]'
       }`}>
-        {isAcademic ? (
-          <GraduationCap size={18} />
-        ) : isInternship ? (
-          <Briefcase size={18} />
+        {item.type === 'Client Project' ? (
+          <Laptop size={16} />
         ) : (
-          <Compass size={18} />
+          <Briefcase size={16} />
         )}
       </div>
 
-      <GlassCard className={`p-8 border-[var(--border)] transition-all duration-700 rounded-3xl ${
-        item.current 
-          ? 'bg-[#A855F7]/5 border-[#A855F7]/25 shadow-xl shadow-[#A855F7]/5' 
-          : 'bg-[var(--surface)]/20 hover:border-[#A855F7]/15'
+      {/* Experience Content Card */}
+      <GlassCard className={`p-6 sm:p-8 rounded-3xl border transition-all duration-300 ${
+        item.current
+          ? 'bg-[var(--surface)]/60 border-[#A855F7]/30 shadow-xl shadow-[#A855F7]/5'
+          : 'bg-[var(--surface)]/30 border-[var(--border)] hover:border-[#A855F7]/30 hover:shadow-lg'
       }`}>
-        <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-4">
           <div>
-            <h3 className="text-2xl font-black text-white italic leading-none mb-2.5 uppercase tracking-tight">
-              {item.role}
-            </h3>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-xs font-black text-[#7C3AED] uppercase tracking-wider">{item.company}</span>
-              <div className="h-1 w-1 rounded-full bg-white/20" />
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#94a3b8]/60 flex items-center gap-1">
-                <MapPin size={10} className="text-[#06B6D4]" />
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <h3 className="text-xl sm:text-2xl font-extrabold text-[var(--fg)] tracking-tight">
+                {item.role}
+              </h3>
+              {item.current && (
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  Current
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-[var(--text-muted)]">
+              <span className="text-[#A855F7] font-bold">{item.company}</span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <MapPin size={12} className="text-[#06B6D4]" />
                 {item.location}
+              </span>
+              <span>•</span>
+              <span className="px-2 py-0.5 rounded bg-[var(--surface-lighter)] text-[10px] uppercase font-mono tracking-wider">
+                {item.type}
               </span>
             </div>
           </div>
-          
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[9px] font-black uppercase tracking-widest text-[#94a3b8] shrink-0 w-fit">
-            <Calendar size={10} className="text-[#06B6D4]" />
-            {item.period}
+
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[var(--surface-lighter)]/70 border border-[var(--border)] text-xs font-mono text-[var(--fg)]/80 shrink-0 w-fit">
+            <Calendar size={12} className="text-[#A855F7]" />
+            <span>{item.period}</span>
           </div>
         </div>
 
-        <p className="text-[#94a3b8] text-xs leading-relaxed font-medium mb-6">
+        <p className="text-sm text-[var(--text-muted)] leading-relaxed font-normal mb-5">
           {item.description}
         </p>
 
-        {/* Verification Status */}
-        <div className="flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-[#94a3b8]/40 px-3 py-1 bg-white/5 rounded-full border border-white/5 w-fit">
-          <Award size={10} className="text-[#06B6D4]/50" />
-          {item.current ? 'Current Active Residency' : 'Completed cycle'}
-        </div>
+        {/* Responsibilities list */}
+        {item.responsibilities && item.responsibilities.length > 0 && (
+          <div className="mb-6 space-y-2">
+            <h4 className="text-xs font-mono uppercase tracking-widest text-[var(--text-muted)] font-bold mb-2">
+              Key Contributions //
+            </h4>
+            <ul className="space-y-2">
+              {item.responsibilities.map((resp, rIdx) => (
+                <li key={rIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-[var(--fg)]/85 leading-relaxed">
+                  <CheckCircle2 size={15} className="text-[#A855F7] shrink-0 mt-0.5" />
+                  <span>{resp}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
+        {/* Technologies Used Badges */}
+        <div className="pt-4 border-t border-[var(--border)] flex flex-wrap gap-2 items-center">
+          <span className="text-[11px] font-mono uppercase text-[var(--text-muted)] font-bold mr-1">
+            Stack:
+          </span>
+          {item.technologies.map((tech, tIdx) => (
+            <span
+              key={tIdx}
+              className="px-2.5 py-1 rounded-lg bg-[var(--surface-lighter)]/60 text-[var(--fg)]/80 text-[11px] font-mono font-medium border border-[var(--border)] hover:border-[#A855F7]/30 transition-colors"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
       </GlassCard>
     </motion.div>
   );
@@ -80,17 +113,24 @@ const Experience: React.FC = () => {
 
   return (
     <section id="experience" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
-      <div className="container mx-auto px-6 max-w-4xl relative z-10">
+      {/* Glow */}
+      <div className="absolute top-1/3 left-0 w-80 h-80 bg-[#A855F7]/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+
+      <div className="container mx-auto px-5 sm:px-8 max-w-5xl relative z-10">
         
-        {/* Section Title */}
-        <div className="flex flex-col items-center text-center mb-16 select-none">
-          <span className="text-[10px] uppercase font-black tracking-[0.5em] text-[#A855F7] mb-3">05 // TIMELINE</span>
-          <h2 className="text-4xl md:text-5xl font-black text-[var(--fg)] uppercase tracking-tight leading-none">
-            Experience Timeline
+        {/* Section Header */}
+        <div className="flex flex-col items-start text-left mb-16 select-none">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 text-[#A855F7] text-[11px] font-mono font-bold tracking-widest uppercase mb-3">
+            <Sparkles size={12} />
+            <span>03 // EXPERIENCE</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--fg)] tracking-tight">
+            Work &amp; Internships
           </h2>
-          <div className="h-[2px] w-12 bg-[#A855F7] mt-4" />
+          <div className="h-1 w-16 bg-gradient-to-r from-[#A855F7] to-[#06B6D4] rounded-full mt-4" />
         </div>
 
+        {/* Timeline Items */}
         <div className="relative">
           {experiences.map((exp, index) => (
             <ExperienceNode key={index} item={exp} index={index} />
@@ -103,3 +143,4 @@ const Experience: React.FC = () => {
 };
 
 export default Experience;
+

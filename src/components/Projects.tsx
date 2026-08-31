@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, Sparkles, Star, ArrowUpRight } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData, Project } from '../data/portfolioData';
 
+// Large Project Card
 const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
   return (
     <motion.div
@@ -11,103 +12,129 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.6, delay: index * 0.05 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.6, delay: index * 0.08 }}
       className="flex"
     >
-      <GlassCard className="group flex flex-col h-full min-h-[460px] overflow-hidden rounded-3xl border-[var(--border)] bg-[var(--surface)]/30 hover:border-[#A855F7]/30 transition-all duration-500 hover:shadow-lg hover:shadow-[#A855F7]/5 relative select-none">
+      <GlassCard className="group flex flex-col h-full w-full overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface)]/40 hover:bg-[var(--surface)] hover:border-[#A855F7]/40 transition-all duration-500 hover:shadow-2xl hover:shadow-[#A855F7]/5 relative text-left">
         
-        {/* Thumbnail Image Container */}
-        <div className="relative h-56 overflow-hidden bg-black/20 shrink-0">
+        {/* Project Preview Image */}
+        <div className="relative h-60 sm:h-64 overflow-hidden bg-black/40 shrink-0 border-b border-[var(--border)]">
           <img 
             src={project.image} 
             alt={project.title} 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-0" 
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none" 
             onError={(e) => {
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop';
+              e.currentTarget.src = '/elearning-platform.png';
             }}
           />
-          {project.badge && (
-            <span className="absolute top-4 left-4 z-20 px-3 py-1 text-[8px] font-black uppercase tracking-widest text-[#A855F7] bg-[#A855F7]/10 border border-[#A855F7]/35 rounded-full backdrop-blur-md">
-              {project.badge}
-            </span>
-          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
 
-          {/* Hover Overlay with Action Buttons */}
-          <div className="absolute inset-0 bg-[var(--bg)]/80 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 z-10 flex flex-col items-center justify-center gap-4">
-            <h4 className="text-white text-sm font-black uppercase tracking-wider mb-2 translate-y-3 group-hover:translate-y-0 transition-transform duration-300">
+          {/* Category / Badge Tags */}
+          <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+            <span className="px-3 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-white bg-black/70 border border-white/10 rounded-full backdrop-blur-md">
+              {project.badge || project.category}
+            </span>
+          </div>
+
+          {/* Overlay Action Buttons */}
+          <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2">
+            <a 
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 bg-black/80 hover:bg-[#A855F7] text-white border border-white/10 hover:border-[#A855F7] rounded-full transition-all duration-300 shadow-lg hover:scale-110"
+              aria-label={`GitHub repository for ${project.title}`}
+            >
+              <Github size={15} />
+            </a>
+            <a 
+              href={project.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 bg-black/80 hover:bg-[#06B6D4] text-white border border-white/10 hover:border-[#06B6D4] rounded-full transition-all duration-300 shadow-lg hover:scale-110"
+              aria-label={`Live demo for ${project.title}`}
+            >
+              <ExternalLink size={15} />
+            </a>
+          </div>
+        </div>
+
+        {/* Content Box */}
+        <div className="p-6 sm:p-8 flex flex-col flex-grow justify-between">
+          <div>
+            <div className="flex items-center justify-between gap-2 mb-2">
+              <span className="text-[10px] font-mono uppercase font-bold tracking-widest text-[#A855F7]">
+                {project.category}
+              </span>
+              {project.rating && (
+                <div className="flex items-center gap-1 text-amber-400 text-xs font-bold">
+                  <Star size={12} className="fill-amber-400" />
+                  <span>Client-Approved</span>
+                </div>
+              )}
+            </div>
+
+            <h3 className="text-xl font-extrabold text-[var(--fg)] group-hover:text-[#A855F7] transition-colors mb-2 tracking-tight">
               {project.title}
-            </h4>
-            <div className="flex items-center gap-3 select-none translate-y-3 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-              {/* GitHub Button */}
-              <a 
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 bg-[var(--surface)] hover:bg-[#A855F7] hover:text-white border border-[var(--border)] text-[var(--fg)] hover:border-[#A855F7] hover:scale-110 rounded-full transition-all duration-300 shadow-lg"
-                aria-label="GitHub Repository"
-              >
-                <Github size={16} />
-              </a>
-              {/* Live Demo Button */}
+            </h3>
+
+            {project.subtitle && (
+              <p className="text-xs font-mono text-[var(--text-muted)] mb-3">
+                {project.subtitle}
+              </p>
+            )}
+
+            <p className="text-xs sm:text-sm text-[var(--text-muted)] font-normal leading-relaxed mb-6">
+              {project.description}
+            </p>
+
+            {/* Client review quote if present */}
+            {project.clientReview && (
+              <div className="mb-6 p-3.5 rounded-2xl bg-amber-500/[0.04] border border-amber-500/15">
+                <p className="text-xs text-[var(--fg)]/80 italic font-medium">
+                  "{project.clientReview}"
+                </p>
+              </div>
+            )}
+          </div>
+
+          {/* Tech stack badges & action row */}
+          <div>
+            <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--border)] mb-5">
+              {project.tech.map((t, idx) => (
+                <span 
+                  key={idx} 
+                  className="text-[10px] font-mono px-2.5 py-1 rounded-lg bg-[var(--surface-lighter)]/70 text-[var(--fg)]/80 font-medium border border-[var(--border)]"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between">
               <a 
                 href={project.live}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 bg-[var(--surface)] hover:bg-[#A855F7] hover:text-white border border-[var(--border)] text-[var(--fg)] hover:border-[#A855F7] hover:scale-110 rounded-full transition-all duration-300 shadow-lg"
-                aria-label="Live Demo Link"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#A855F7] hover:text-[#C084FC] transition-colors uppercase tracking-wider"
               >
-                <ExternalLink size={16} />
+                <span>Explore Project</span>
+                <ArrowUpRight size={14} />
+              </a>
+
+              <a 
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 text-xs font-medium text-[var(--text-muted)] hover:text-[var(--fg)] transition-colors"
+              >
+                <Github size={13} />
+                <span>Code</span>
               </a>
             </div>
           </div>
-        </div>
 
-        {/* Info Content */}
-        <div className="p-6 md:p-8 flex flex-col flex-grow text-left">
-          {/* Category Tag */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[9px] font-extrabold uppercase tracking-widest text-[#A855F7] px-2 py-0.5 rounded bg-[#A855F7]/10 w-fit">
-              {project.category}
-            </span>
-          </div>
-
-          <h3 className="text-lg font-black mb-3 text-[var(--fg)] group-hover:text-[#A855F7] transition-colors duration-300 uppercase tracking-tight">
-            {project.title}
-          </h3>
-
-          <p className="text-[var(--text-muted)] text-xs font-semibold leading-relaxed mb-6 flex-grow">
-            {project.description}
-          </p>
-
-          {project.rating && (
-            <div className="mb-6 p-4 rounded-2xl bg-yellow-500/5 border border-yellow-500/15 backdrop-blur-md">
-              <div className="flex items-center gap-1 mb-2">
-                {[...Array(project.rating)].map((_, i) => (
-                  <svg key={i} className="w-3.5 h-3.5 text-amber-400 fill-current" viewBox="0 0 20 20">
-                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                  </svg>
-                ))}
-              </div>
-              {project.clientReview && (
-                <p className="text-[10px] text-[var(--fg)]/75 italic font-bold leading-normal">
-                  "{project.clientReview}"
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Tech stack badge tags */}
-          <div className="flex flex-wrap gap-1.5 pt-4 border-t border-[var(--border)]">
-            {project.tech.map((t, idx) => (
-              <span 
-                key={idx} 
-                className="text-[8px] px-2.5 py-0.5 rounded-full bg-[var(--surface-lighter)] text-[var(--fg)]/70 font-bold uppercase tracking-wider border border-[var(--border)]"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         </div>
 
       </GlassCard>
@@ -116,40 +143,45 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 };
 
 const Projects: React.FC = () => {
-  const projects = portfolioData.projects;
+  const allProjects = portfolioData.projects;
   const [filter, setFilter] = useState('All');
 
-  // Dynamically extract categories
-  const categories = ['All', ...Array.from(new Set(projects.map(p => p.category)))];
+  const categories = ['All', 'Client Work', 'Web Apps', 'Mobile App', 'UI/UX'];
 
-  const filteredProjects = filter === 'All' 
-    ? projects 
-    : projects.filter(p => p.category === filter);
+  const filteredProjects = filter === 'All'
+    ? allProjects
+    : allProjects.filter(p => p.category === filter);
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
-      <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
+      {/* Glow */}
+      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#A855F7]/5 rounded-full blur-[140px] pointer-events-none -z-10" />
+
+      <div className="container mx-auto px-5 sm:px-8 max-w-7xl relative z-10">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16 select-none">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 select-none">
           <div className="flex flex-col items-start text-left">
-            <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#A855F7] mb-2">03 // PORTFOLIO</span>
-            <h2 className="text-3xl md:text-5xl font-black text-[var(--fg)] uppercase tracking-tight leading-none">
-              My Projects
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 text-[#A855F7] text-[11px] font-mono font-bold tracking-widest uppercase mb-3">
+              <Sparkles size={12} />
+              <span>04 // PORTFOLIO</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--fg)] tracking-tight">
+              Featured Work &amp; Projects
             </h2>
-            <div className="h-[2px] w-12 bg-[#A855F7] mt-4" />
+            <div className="h-1 w-16 bg-gradient-to-r from-[#A855F7] to-[#06B6D4] rounded-full mt-4" />
           </div>
 
-          {/* Category Filter Tabs */}
-          <div className="flex flex-wrap gap-2 pt-4 md:pt-0">
-            {categories.map((cat, idx) => (
+          {/* Filter Tabs */}
+          <div className="flex flex-wrap gap-2 pt-2">
+            {categories.map((cat) => (
               <button
-                key={idx}
+                key={cat}
                 onClick={() => setFilter(cat)}
-                className={`px-4 py-2 rounded-full text-[9px] font-black uppercase tracking-wider border transition-all focus:outline-none ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all focus:outline-none ${
                   filter === cat
-                    ? 'bg-[#A855F7] text-white border-[#A855F7] shadow-lg shadow-[#A855F7]/10'
-                    : 'bg-[var(--surface)] hover:bg-[var(--surface-lighter)] text-[var(--fg)]/70 border-[var(--border)]'
+                    ? 'bg-gradient-to-r from-[#A855F7] to-[#7C3AED] text-white shadow-lg shadow-[#A855F7]/20 font-bold'
+                    : 'bg-[var(--surface)] text-[var(--text-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-lighter)] border border-[var(--border)]'
                 }`}
               >
                 {cat}
@@ -158,7 +190,7 @@ const Projects: React.FC = () => {
           </div>
         </div>
 
-        {/* Project Gallery Grid */}
+        {/* 2-Column Responsive Project Grid */}
         <motion.div 
           layout
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -176,3 +208,4 @@ const Projects: React.FC = () => {
 };
 
 export default Projects;
+

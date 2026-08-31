@@ -1,171 +1,190 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, Code2, Sparkles, MapPin, GraduationCap, Briefcase } from 'lucide-react';
+import { GraduationCap, Code2, Atom, MapPin, Sparkles, Award, ArrowUpRight, Compass, HeartHandshake } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData } from '../data/portfolioData';
 
-const SkillProgressBar: React.FC<{ name: string; level: number; index: number }> = ({ name, level, index }) => {
-  return (
-    <div className="w-full group/skill mb-5">
-      <div className="flex justify-between items-center mb-1.5 font-sans text-xs">
-        <span className="font-bold text-[var(--fg)] group-hover/skill:text-[#A855F7] transition-colors duration-300">
-          {name}
-        </span>
-        <span className="font-bold text-[#A855F7]">
-          {level}%
-        </span>
-      </div>
-      <div className="h-2 w-full bg-[var(--surface-lighter)] rounded-full overflow-hidden border border-[var(--border)]">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${level}%` }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: index * 0.08, ease: [0.25, 1, 0.5, 1] }}
-          className="h-full rounded-full bg-[#A855F7]"
-          style={{
-            boxShadow: `0 0 10px rgba(168, 85, 247, 0.3)`
-          }}
-        />
-      </div>
-    </div>
-  );
-};
-
 const About: React.FC = () => {
-  const { name, about: bio } = portfolioData;
-  const skills = portfolioData.skills;
+  const { name, role, profileImage, about } = portfolioData;
 
-  const summaryCards = [
+  const infoCards = [
     {
-      title: 'Education',
-      desc: 'Completed MCA @ Galgotias & BCA @ BVU, Delhi.',
+      title: 'MCA Graduate',
+      subtitle: 'Galgotias University (7.96 CGPA)',
       icon: GraduationCap,
       color: 'text-[#A855F7]',
-      bgColor: 'bg-[#A855F7]/10'
+      border: 'hover:border-[#A855F7]/40',
+      bg: 'bg-[#A855F7]/10'
     },
     {
-      title: 'Internships',
-      desc: 'Completed multiple Frontend Development internships.',
-      icon: Briefcase,
-      color: 'text-indigo-500',
-      bgColor: 'bg-indigo-500/10'
+      title: 'Frontend Developer',
+      subtitle: 'Modern UI/UX & Responsive Web',
+      icon: Code2,
+      color: 'text-[#06B6D4]',
+      border: 'hover:border-[#06B6D4]/40',
+      bg: 'bg-[#06B6D4]/10'
+    },
+    {
+      title: 'React Developer',
+      subtitle: 'React.js, TypeScript & Tailwind',
+      icon: Atom,
+      color: 'text-[#8B5CF6]',
+      border: 'hover:border-[#8B5CF6]/40',
+      bg: 'bg-[#8B5CF6]/10'
+    },
+    {
+      title: 'Delhi, India',
+      subtitle: 'Open to Worldwide Opportunities',
+      icon: MapPin,
+      color: 'text-emerald-400',
+      border: 'hover:border-emerald-400/40',
+      bg: 'bg-emerald-400/10'
     }
   ];
 
   return (
     <section id="about" className="py-24 relative overflow-hidden bg-[var(--bg)] border-t border-[var(--border)]">
-      <div className="container mx-auto px-6 md:px-12 max-w-7xl relative z-10">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-[#A855F7]/5 rounded-full blur-[120px] pointer-events-none -z-10" />
+
+      <div className="container mx-auto px-5 sm:px-8 max-w-7xl relative z-10">
         
-        {/* Section Title */}
+        {/* Section Header */}
         <div className="flex flex-col items-start text-left mb-16 select-none">
-          <span className="text-[10px] uppercase font-black tracking-[0.4em] text-[#A855F7] mb-2">01 // IDENTITY</span>
-          <h2 className="text-3xl md:text-5xl font-black text-[var(--fg)] uppercase tracking-tight leading-none">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#A855F7]/10 border border-[#A855F7]/25 text-[#A855F7] text-[11px] font-mono font-bold tracking-widest uppercase mb-3">
+            <Sparkles size={12} />
+            <span>01 // IDENTITY</span>
+          </div>
+          <h2 className="text-3xl sm:text-5xl font-extrabold text-[var(--fg)] tracking-tight">
             About Me
           </h2>
-          <div className="h-[2px] w-12 bg-[#A855F7] mt-4" />
+          <div className="h-1 w-16 bg-gradient-to-r from-[#A855F7] to-[#06B6D4] rounded-full mt-4" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+        {/* Two-Column Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
           
-          {/* Left Block: Circular Profile Image & Small Cards */}
+          {/* Left Column: Profile Card & Quick Info */}
           <div className="lg:col-span-5 flex flex-col items-center gap-8">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={{ opacity: 0, scale: 0.94 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
-              className="relative w-full max-w-[280px]"
+              transition={{ duration: 0.7 }}
+              className="relative w-full max-w-[320px] group"
             >
-              {/* Outer border shape */}
-              <div className="absolute inset-[-6px] rounded-full border border-dashed border-[#A855F7]/30 scale-102" />
-              
-              <div className="w-full aspect-square rounded-full overflow-hidden bg-[var(--surface)] border-4 border-[var(--surface)] shadow-xl p-1 relative z-10">
-                <img 
-                  src="/profile.png" 
-                  alt={name} 
-                  className="w-full h-full object-cover rounded-full select-none" 
-                />
+              {/* Glowing Aura */}
+              <div className="absolute -inset-2 bg-gradient-to-tr from-[#A855F7] via-[#6366F1] to-[#06B6D4] rounded-3xl opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-500 -z-10" />
+
+              {/* Profile Card Container */}
+              <div className="rounded-3xl p-3 bg-[var(--surface)] border border-[var(--border)] shadow-2xl overflow-hidden relative">
+                <div className="aspect-square w-full rounded-2xl overflow-hidden bg-black/40 relative">
+                  <img 
+                    src={profileImage} 
+                    alt={name} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 select-none"
+                    onError={(e) => {
+                      e.currentTarget.src = '/profile.jpg';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+                  
+                  {/* Status Overlay */}
+                  <div className="absolute bottom-3 left-3 right-3 p-3 rounded-xl bg-black/70 backdrop-blur-md border border-white/10 flex items-center justify-between text-left">
+                    <div>
+                      <h4 className="text-xs font-black text-white">{name}</h4>
+                      <p className="text-[10px] text-[#A855F7] font-semibold">{role}</p>
+                    </div>
+                    <span className="flex h-2.5 w-2.5 relative">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* Quick Summary Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-[400px]">
-              {summaryCards.map((card, idx) => {
+            {/* Quick Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full">
+              {infoCards.map((card, idx) => {
                 const Icon = card.icon;
                 return (
-                  <GlassCard 
+                  <motion.div
                     key={idx}
-                    className="p-5 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col items-start text-left group hover:border-[#A855F7]/30 transition-all duration-300"
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: idx * 0.08 }}
                   >
-                    <div className={`p-2 rounded-xl ${card.bgColor} ${card.color} w-fit mb-3 group-hover:scale-105 transition-transform duration-300`}>
-                      <Icon size={16} />
-                    </div>
-                    <h4 className="text-xs font-bold text-[var(--fg)] mb-1 uppercase tracking-wider">{card.title}</h4>
-                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed font-semibold">{card.desc}</p>
-                  </GlassCard>
+                    <GlassCard className={`p-4 border-[var(--border)] bg-[var(--surface)]/50 rounded-2xl flex flex-col items-start text-left transition-all duration-300 ${card.border} group`}>
+                      <div className={`p-2.5 rounded-xl ${card.bg} ${card.color} mb-3 group-hover:scale-110 transition-transform`}>
+                        <Icon size={16} />
+                      </div>
+                      <h3 className="text-xs font-bold text-[var(--fg)] mb-0.5 tracking-tight">{card.title}</h3>
+                      <p className="text-[10px] text-[var(--text-muted)] font-medium leading-relaxed">{card.subtitle}</p>
+                    </GlassCard>
+                  </motion.div>
                 );
               })}
             </div>
           </div>
 
-          {/* Right Block: Summary & Progress Bars */}
-          <div className="lg:col-span-7 flex flex-col justify-center text-left">
-            <h3 className="text-xl md:text-2xl font-black mb-6 text-[var(--fg)] tracking-tight uppercase leading-snug">
-              I'm <span className="text-[#A855F7]">Anamika Pandey</span>, a Frontend Developer specializing in <span className="text-[#A855F7]">React.js</span> &amp; modern web technologies
+          {/* Right Column: Bio, Interests, Philosophy */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-7 flex flex-col items-start text-left"
+          >
+            <span className="text-xs font-mono uppercase tracking-widest text-[#A855F7] mb-2 font-bold">
+              Engineering with Purpose //
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-[var(--fg)] tracking-tight mb-6 leading-snug">
+              Creating seamless digital experiences with clean code &amp; human-centered design.
             </h3>
 
-            <div className="space-y-4 text-[var(--text-muted)] leading-relaxed text-sm md:text-base font-semibold mb-8">
+            <div className="space-y-4 text-[var(--text-muted)] text-sm sm:text-base leading-relaxed font-normal mb-8">
               <p>
-                I build responsive, user-friendly, and performance-driven web applications with a focus on clean UI, seamless experiences, and scalable solutions.
+                I am an <strong className="text-[var(--fg)] font-semibold">MCA graduate</strong> specializing in modern frontend engineering, interactive user interfaces, and responsive web applications. My foundation bridges algorithmic problem-solving with creative frontend engineering.
               </p>
               <p>
-                Currently working on <strong className="text-[var(--fg)] font-bold">Women Safety & Empowerment Platform</strong> while exploring <strong className="text-[var(--fg)] font-bold">Advanced React.js</strong> and <strong className="text-[var(--fg)] font-bold">Frontend Development</strong>.
+                From interactive client platforms like <strong className="text-[var(--fg)] font-semibold">Step Up Dance Academy</strong> to scalable mobile applications like <strong className="text-[var(--fg)] font-semibold">MithilaKitchen</strong>, I build solutions with React.js, TypeScript, Tailwind CSS, and modern API integrations.
               </p>
             </div>
 
-            {/* Quick Facts Section */}
-            <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)]/30 backdrop-blur-md mb-8 w-full">
-              <h4 className="text-xs font-black text-[var(--fg)] uppercase tracking-widest mb-4 opacity-60">
-                Quick Facts //
-              </h4>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs md:text-sm font-semibold text-[var(--fg)]/85">
-                <li className="flex items-center gap-2.5">
-                  <span className="text-base shrink-0 select-none">⚛️</span> <span>React.js Developer</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <span className="text-base shrink-0 select-none">🚀</span> <span>Frontend Development Internships</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <span className="text-base shrink-0 select-none">💻</span> <span>Modern Web Applications</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <span className="text-base shrink-0 select-none">💃</span> <span>Classical Dancer</span>
-                </li>
-              </ul>
-              
-              <p className="italic text-[#A855F7] font-bold border-l-2 border-[#A855F7] pl-3 py-1 bg-[#A855F7]/5 rounded-r-lg mt-4 text-xs md:text-sm">
-                "Code with creativity, build with purpose 🚀"
+            {/* Choreography to Code Philosophy Callout */}
+            <div className="p-6 rounded-3xl border border-[#A855F7]/25 bg-gradient-to-r from-[#A855F7]/10 via-[var(--surface)] to-transparent backdrop-blur-md mb-8 w-full">
+              <div className="flex items-center gap-2 mb-2 text-[#A855F7] text-xs font-mono font-bold uppercase tracking-widest">
+                <span>💃</span>
+                <span>Philosophy &amp; Artistic Precision</span>
+              </div>
+              <p className="text-xs sm:text-sm text-[var(--fg)] font-medium italic leading-relaxed">
+                "{about.philosophy}"
               </p>
             </div>
 
-            {/* Animated Progress Bars */}
-            <div className="w-full">
-              <h4 className="text-xs font-black text-[var(--fg)] uppercase tracking-widest mb-6 opacity-60">
-                Tech Stack Capabilities //
-              </h4>
+            {/* Key Focus Areas */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+              <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-lighter)]/30 text-left">
+                <div className="flex items-center gap-2 text-xs font-bold text-[var(--fg)] mb-1">
+                  <span className="text-[#06B6D4]">✦</span> Responsive &amp; Mobile-First
+                </div>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  Pixel-perfect rendering across 375px mobile screens up to 4K ultra-wide monitors.
+                </p>
+              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-1">
-                {skills.map((skill, index) => (
-                  <SkillProgressBar 
-                    key={index} 
-                    name={skill.name} 
-                    level={skill.level} 
-                    index={index} 
-                  />
-                ))}
+              <div className="p-4 rounded-2xl border border-[var(--border)] bg-[var(--surface-lighter)]/30 text-left">
+                <div className="flex items-center gap-2 text-xs font-bold text-[var(--fg)] mb-1">
+                  <span className="text-[#A855F7]">✦</span> Component Modularity
+                </div>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  Reusable, type-safe, and self-documenting React components with clean state management.
+                </p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
 
@@ -175,3 +194,4 @@ const About: React.FC = () => {
 };
 
 export default About;
+
