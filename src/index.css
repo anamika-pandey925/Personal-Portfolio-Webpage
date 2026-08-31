@@ -23,9 +23,9 @@
   --scroll-progress: 0%;
 }
 
-.light {
+:root.light, html.light, body.light, .light {
   color-scheme: light;
-  --bg: #FAFAFB;
+  --bg: #FAFAFC;
   --fg: #0F172A;
   --surface: #FFFFFF;
   --surface-lighter: #F1F5F9;
@@ -39,7 +39,7 @@
   --text-muted: #64748B;
 }
 
-.dark {
+:root.dark, html.dark, body.dark, .dark {
   color-scheme: dark;
   --bg: #07090e;
   --fg: #F8FAFC;
