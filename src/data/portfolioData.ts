@@ -80,6 +80,33 @@ export const portfolioData = {
   
   projects: [
     {
+      title: 'NeoFound Technologies',
+      subtitle: 'Business Technology & Promotion Platform',
+      description: 'A professional corporate website for NeoFound Technologies — a company offering IT solutions, digital promotion, business automation, and tender & bid support services for growing companies.',
+      problem: 'NeoFound Technologies needed a high-performance, visually modern web presence to effectively showcase their multi-service offerings and attract business clients.',
+      solution: 'Designed and developed a sleek, dark-themed multi-section corporate website with service showcases, insights blog, analytics UI widgets, and a professional contact flow.',
+      tech: ['React.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+      technology: ['React.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+      image: '/neofound-technologies.jpg',
+      github: 'https://github.com/anamika-pandey925',
+      live: 'https://neofound-technologies.vercel.app/',
+      category: 'Client Work' as const,
+      badge: 'Latest Project',
+      rating: 5,
+      clientReview: 'A clean, fast, and professional website that perfectly represents our brand and services. Highly impressed with the quality and attention to detail!',
+      features: [
+        'Multi-service showcase covering IT Solutions, Digital Promotion, Business Automation, and Tender & Bid Support',
+        'Real-time analytics dashboard UI with IT stack status, workflow sync metrics, and promotion pipeline indicators',
+        'Insights blog section with category filters (Technology, Digital Promotion, Automation, Tender & Bid)'
+      ],
+      keyFeatures: [
+        'Multi-service showcase covering IT Solutions, Digital Promotion, Business Automation, and Tender & Bid Support',
+        'Real-time analytics dashboard UI with IT stack status, workflow sync metrics, and promotion pipeline indicators',
+        'Insights blog section with category filters (Technology, Digital Promotion, Automation, Tender & Bid)'
+      ],
+      result: 'Delivered a polished, production-ready corporate website for NeoFound Technologies, live on Vercel with fast performance and a modern dark design system.'
+    },
+    {
       title: 'Step Up Dance Academy',
       subtitle: 'Client Website & Class Portal',
       description: 'A client website showcasing dance disciplines, certified faculty, batch schedules, student reviews, and automated inquiry registration.',
