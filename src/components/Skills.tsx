@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Code, Cpu, Wrench, Palette, Database, Lock, CheckCircle2, Shield, Layout, Eye, Terminal } from 'lucide-react';
+import { Sparkles, Code, Cpu, Wrench, Palette, Database, Lock, CheckCircle2, Shield, Layout, Eye, Terminal, Target, BarChart2, Megaphone, Users } from 'lucide-react';
 import GlassCard from './GlassCard';
 import { portfolioData, SkillItem } from '../data/portfolioData';
 
@@ -102,6 +102,58 @@ const TechIcon: React.FC<{ icon: string; className?: string }> = ({ icon, classN
           <path d="M20 12c0 2.2-1.8 4-4 4s-4-1.8-4-4 1.8-4 4-4 4 1.8 4 4z" fill="#1ABCFE" />
         </svg>
       );
+    // Digital Marketing Icons
+    case 'meta':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 10.5C10.4 8.3 8.9 7 7.5 7 5.6 7 4 9 4 12c0 1.7.6 3 1.5 3 .9 0 1.9-1.1 3-3l3.5-1.5zM12 13.5C13.6 15.7 15.1 17 16.5 17c1.9 0 3.5-2 3.5-5 0-1.7-.6-3-1.5-3-.9 0-1.9 1.1-3 3L12 13.5z" fill="url(#meta-grad)" />
+          <path d="M12 10.5l3.5 1.5c-1.1 1.9-2.1 3-3 3-0.9 0-1.9-1.1-3-3L12 10.5z" fill="url(#meta-grad2)" />
+          <defs>
+            <linearGradient id="meta-grad" x1="4" y1="7" x2="20" y2="17" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#0082FB" />
+              <stop offset="1" stopColor="#A334FA" />
+            </linearGradient>
+            <linearGradient id="meta-grad2" x1="9" y1="10" x2="15" y2="17" gradientUnits="userSpaceOnUse">
+              <stop stopColor="#0082FB" />
+              <stop offset="1" stopColor="#A334FA" />
+            </linearGradient>
+          </defs>
+        </svg>
+      );
+    case 'facebook':
+      return (
+        <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#1877F2" />
+          <path d="M16.5 8H14c-.6 0-1 .4-1 1v2h3.5l-.5 3H13v7h-3v-7H8v-3h2V9c0-2.2 1.8-4 4-4h2.5v3z" fill="white" />
+        </svg>
+      );
+    case 'instagram':
+      return (
+        <svg className={className} viewBox="0 0 24 24" aria-hidden="true">
+          <defs>
+            <radialGradient id="ig-bg" cx="30%" cy="107%" r="150%">
+              <stop offset="0%" stopColor="#fdf497" />
+              <stop offset="5%" stopColor="#fdf497" />
+              <stop offset="45%" stopColor="#fd5949" />
+              <stop offset="60%" stopColor="#d6249f" />
+              <stop offset="90%" stopColor="#285AEB" />
+            </radialGradient>
+          </defs>
+          <rect width="24" height="24" rx="6" fill="url(#ig-bg)" />
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="white" strokeWidth="1.8" />
+          <circle cx="17.5" cy="6.5" r="1.3" fill="white" />
+        </svg>
+      );
+    case 'campaign':
+      return <Megaphone className={`${className} text-[#0082FB]`} />;
+    case 'leadgen':
+      return <Users className={`${className} text-[#A334FA]`} />;
+    case 'target':
+      return <Target className={`${className} text-[#0082FB]`} />;
+    case 'creative':
+      return <Palette className={`${className} text-[#A334FA]`} />;
+    case 'analytics':
+      return <BarChart2 className={`${className} text-[#0082FB]`} />;
     default:
       return <Code className={className} />;
   }
@@ -111,7 +163,7 @@ const Skills: React.FC = () => {
   const allSkills = portfolioData.skills;
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
-  const categories = ['All', 'Frontend', 'UI / Styling', 'Backend / Services', 'Tools'];
+  const categories = ['All', 'Frontend', 'UI / Styling', 'Backend / Services', 'Tools', 'Digital Marketing'];
 
   const filteredSkills = selectedCategory === 'All'
     ? allSkills

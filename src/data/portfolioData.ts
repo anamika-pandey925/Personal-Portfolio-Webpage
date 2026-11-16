@@ -22,7 +22,7 @@ export interface Project {
 
 export interface SkillItem {
   name: string;
-  category: 'Frontend' | 'UI / Styling' | 'Backend / Services' | 'Tools';
+  category: 'Frontend' | 'UI / Styling' | 'Backend / Services' | 'Tools' | 'Digital Marketing';
   icon: string;
   description?: string;
 }
@@ -67,7 +67,7 @@ export const portfolioData = {
   about: {
     greeting: "Hi, I'm Anamika Pandey",
     headline: "Frontend Developer & UI/UX Craftsman",
-    bio: "MCA graduate specializing in modern frontend engineering, interactive user interfaces, and responsive component architecture. Guided by the structured precision and creative discipline of classical dance, I approach software design with focus, clean structure, and attention to detail.",
+    bio: "MCA graduate specializing in modern frontend engineering, interactive user interfaces, and responsive component architecture. I also bring hands-on knowledge of Meta Ads (Facebook & Instagram advertising), combining technical skills with digital marketing to build and promote web solutions. Guided by the structured precision and creative discipline of classical dance, I approach software design with focus, clean structure, and attention to detail.",
     details: "I focus on developing scalable React.js architectures, responsive cross-device layouts, accessible web interfaces, and clean component design using Tailwind CSS and TypeScript.",
     highlights: [
       { label: 'Degree', value: 'MCA Graduate', subtext: 'Galgotias University (7.96 CGPA)', icon: 'GraduationCap' },
@@ -286,7 +286,17 @@ export const portfolioData = {
     { name: 'Git', category: 'Tools', icon: 'git', description: 'Version control, branching, committing, and merge workflows' },
     { name: 'GitHub', category: 'Tools', icon: 'github', description: 'Repository management, pull requests, collaboration, and deployment' },
     { name: 'Vite', category: 'Tools', icon: 'vite', description: 'Modern, fast frontend build tooling and development server' },
-    { name: 'VS Code', category: 'Tools', icon: 'vscode', description: 'Extensions, debugging, linting, and development workflow' }
+    { name: 'VS Code', category: 'Tools', icon: 'vscode', description: 'Extensions, debugging, linting, and development workflow' },
+
+    // Digital Marketing
+    { name: 'Meta Ads', category: 'Digital Marketing', icon: 'meta', description: 'Facebook & Instagram advertising platform for campaign setup and performance management' },
+    { name: 'Facebook Ads', category: 'Digital Marketing', icon: 'facebook', description: 'Paid ad campaigns on Facebook — audience targeting, creative setup, and optimization' },
+    { name: 'Instagram Ads', category: 'Digital Marketing', icon: 'instagram', description: 'Visual ad campaigns on Instagram — story, feed, and reel ad formats' },
+    { name: 'Campaign Management', category: 'Digital Marketing', icon: 'campaign', description: 'End-to-end campaign setup, monitoring, budget allocation, and scheduling' },
+    { name: 'Lead Generation', category: 'Digital Marketing', icon: 'leadgen', description: 'Designing lead-capture campaigns using Meta lead forms and landing page funnels' },
+    { name: 'Audience Targeting', category: 'Digital Marketing', icon: 'target', description: 'Custom audiences, lookalike audiences, interest-based, and demographic targeting' },
+    { name: 'Ad Copy & Creative', category: 'Digital Marketing', icon: 'creative', description: 'Writing persuasive ad copy and setting up creatives for Meta ad placements' },
+    { name: 'Ads Performance', category: 'Digital Marketing', icon: 'analytics', description: 'Analyzing key metrics including CTR, CPC, cost per lead, and campaign ROAS' }
   ] as SkillItem[],
 
   internships: [

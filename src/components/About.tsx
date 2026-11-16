@@ -149,7 +149,7 @@ const About: React.FC = () => {
                 I am an <strong className="text-[var(--fg)] font-semibold">MCA graduate</strong> specializing in modern frontend engineering, interactive user interfaces, and responsive web applications. My foundation bridges algorithmic problem-solving with creative frontend engineering.
               </p>
               <p>
-                From interactive client platforms like <strong className="text-[var(--fg)] font-semibold">Step Up Dance Academy</strong> to scalable mobile applications like <strong className="text-[var(--fg)] font-semibold">MithilaKitchen</strong>, I build solutions with React.js, TypeScript, Tailwind CSS, and modern API integrations.
+                From interactive client platforms like <strong className="text-[var(--fg)] font-semibold">Step Up Dance Academy</strong> to scalable mobile applications like <strong className="text-[var(--fg)] font-semibold">MithilaKitchen</strong>, I build solutions with React.js, TypeScript, Tailwind CSS, and modern API integrations. I've also recently gained practical experience in <strong className="text-[var(--fg)] font-semibold">Meta Ads</strong> (Facebook & Instagram advertising), extending my capabilities into digital marketing.
               </p>
             </div>
 
